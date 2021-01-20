@@ -8,15 +8,17 @@
     ],
     "license": "MIT",
     "require": {
-        "ext-json": "*",
         "php": "^7.2.5|^8.0",
+        "ext-json": "*",
         "barryvdh/laravel-ide-helper": "^2.8",
         "encore/laravel-admin": "1.*",
         "fideloper/proxy": "^4.4",
+        "laravel-admin-ext/backup": "^1.1",
         "laravel-admin-ext/grid-lightbox": "^1.0",
         "laravel/framework": "^6.20",
         "laravel/tinker": "^2.5",
         "medz/cors": "^1.5",
+        "spatie/laravel-backup": "6.14.3",
         "tymon/jwt-auth": "^1.0"
     },
     "require-dev": {

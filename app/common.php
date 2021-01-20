@@ -224,3 +224,19 @@ function grid_disabled_all(\Encore\Admin\Grid $grid): \Encore\Admin\Grid
 
     return $grid;
 }
+
+function human_file_size($size, $unit = ""): string
+{
+    if ((!$unit && $size >= 1 << 30) || $unit == "GB")
+        return number_format($size / (1 << 30), 2) . "GB";
+    if ((!$unit && $size >= 1 << 20) || $unit == "MB")
+        return number_format($size / (1 << 20), 2) . "MB";
+    if ((!$unit && $size >= 1 << 10) || $unit == "KB")
+        return number_format($size / (1 << 10), 2) . "KB";
+    return number_format($size) . " bytes";
+}
+
+function is_win(): bool
+{
+    return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
+}

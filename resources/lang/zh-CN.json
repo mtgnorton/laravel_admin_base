@@ -34,5 +34,15 @@
     "Title": "标题",
     "Content": "内容",
     "See image": "查看图片",
-    "Post": "博客"
+    "Post": "博客",
+    "/////////////////////////////////////////": "备份",
+    "Backup list": "备份列表",
+    "Backup file name": "备份文件名",
+    "Backup size": "备份大小",
+    "Backup time": "备份时间",
+    "Recover": "恢复",
+    "Backup success": "备份成功",
+    "Recover success": "恢复成功",
+    "Confirm recover": "确定恢复?",
+    "Download": "下载"
 }

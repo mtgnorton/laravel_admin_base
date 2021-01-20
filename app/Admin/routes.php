@@ -19,4 +19,7 @@ Route::group([
         'posts'    => 'PostController',
         'comments' => 'CommentController',
     ]);
+    $router->get('backups', 'BackupController@index');
+    $router->delete('backups/{id}', 'BackupController@destroy');
+
 });
