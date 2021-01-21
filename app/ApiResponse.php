@@ -17,11 +17,11 @@ trait ApiResponse
      * time: 2020/9/19   17:18
      * function description:
      * @param array $data
-     * @param int $code 200:响应正常,202=业务逻辑错误如参数错误,203=登录错误
+     * @param int $code 200:响应正常,400 错误
      * @param string $msg
      * @return \Illuminate\Http\JsonResponse
      */
-    public function transfer($data = [], $msg = null, $code = 200)
+    public function transfer($data = [], $msg = null, $code = 400)
     {
         if (is_string($data)) {
             $msg  = $data;
@@ -32,11 +32,9 @@ trait ApiResponse
         }
 
         return response()->json([
-            'code'    => $code,
-            // 'status'  => intval($code == 200),
             'message' => $msg,
             'data'    => $data,
-        ]);
+        ], $code);
     }
 
 

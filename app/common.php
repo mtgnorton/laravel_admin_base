@@ -23,6 +23,22 @@ function db_commit()
     DB::commit();
 }
 
+function conf($key, string $module = null)
+{
+    $map = [];
+
+    if (!is_null($module)) {
+        $map[] = [
+            'module', '=', $module
+        ];
+    }
+    if (is_array($key)) {
+        return \App\Model\Config::where($map)->whereIn('key', $key)->pluck('value', 'key');
+    }
+    $map[] = ['key', '=', $key];
+
+    return \App\Model\Config::where($map)->value('value');
+}
 /**
  * author: mtg
  * time: 2020/12/14   10:18
