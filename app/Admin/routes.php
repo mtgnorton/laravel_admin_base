@@ -21,5 +21,6 @@ Route::group([
     ]);
     $router->get('backups', 'BackupController@index');
     $router->delete('backups/{id}', 'BackupController@destroy');
+    $router->any('settings', 'SettingController@index');
 
 });

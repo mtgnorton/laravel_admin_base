@@ -44,5 +44,8 @@
     "Backup success": "备份成功",
     "Recover success": "恢复成功",
     "Confirm recover": "确定恢复?",
-    "Download": "下载"
+    "Download": "下载",
+    "/////////////////////////////////////////": "系统配置",
+    "Update success": "更新成功",
+    "Site name": "网站名称"
 }
