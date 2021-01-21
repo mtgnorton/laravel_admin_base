@@ -2,7 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\Admin\Components\Settings\Basic;
+use App\Admin\Components\Settings\Site;
 use App\Admin\Components\Settings\Other;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Widgets\Tab;
@@ -13,7 +13,7 @@ class SettingController extends Controller
     public function index(Content $content)
     {
         $forms = [
-            'basic' => Basic::class,
+            'basic' => Site::class,
             'other' => Other::class,
         ];
 

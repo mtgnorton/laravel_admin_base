@@ -8,7 +8,7 @@ use Encore\Admin\Widgets\Form;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 
-class Other extends Base
+class Site extends Base
 {
 
 
@@ -18,12 +18,12 @@ class Other extends Base
     public function form()
     {
 
-        $this->text('other_config', __("Other config"))->rules('required');
+        $this->text('site_name', __("Site name"))->rules('required');
     }
 
 
     public function tabTitle()
     {
-        return __('Other');
+        return __('Site setting');
     }
 }
