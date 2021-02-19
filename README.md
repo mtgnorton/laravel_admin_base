@@ -1,5 +1,14 @@
 #laravel api 脚手架
 
+## 部署
+
+1. git clone 拉取代码    
+2. composer install --no-scripts
+3. php artisan key:generate,将.env生成的APP_KEY复制到go项目的config/config.toml的AppKey,该key不能泄露
+4. 修改.env中的数据库信息
+5. chmod -R a+w storage
+6. php artisan storage:link
+
 
 
 ##常用命令
