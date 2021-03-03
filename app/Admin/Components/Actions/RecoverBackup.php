@@ -53,7 +53,7 @@ class RecoverBackup extends RowAction
         }
         unlink($sqlFile);
 
-        return $this->response()->info(__('Recover success'))->refresh();
+        return $this->response()->info(ll('Recover success'))->refresh();
     }
 
     // 这个方法来根据`star`字段的值来在这一列显示不同的图标
@@ -65,7 +65,7 @@ class RecoverBackup extends RowAction
 
     public function dialog()
     {
-        $this->confirm(__('Confirm recover'));
+        $this->confirm(ll('Confirm recover'));
     }
 
     public function getSqlFile(string $fullPath, string $tempDir)

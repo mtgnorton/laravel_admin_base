@@ -27,7 +27,7 @@ class ModifyPassword extends RowAction
         }
         if ($isModify) {
             $model->save();
-            return $this->response()->success(__('Modify success'))->refresh();
+            return $this->response()->success(ll('Modify success'))->refresh();
 
         }
         return $this->response()->info('No modify')->refresh();
@@ -43,11 +43,11 @@ class ModifyPassword extends RowAction
     public function form()
     {
 
-        $this->text('user_id', __('User id'))->value($this->row->id)->readonly();
-        $this->password('password', __('Password'))->help(__("input modify"))->rules("sometimes|nullable|min:6|confirmed");
-        $this->password('password_confirmation', __('Password confirmation'));
-        $this->password('pay_password', __('Pay password'))->help(__("input modify"))->rules("sometimes|nullable|min:6|confirmed");
-        $this->password('pay_password_confirmation', __('Pay password confirmation'));
+        $this->text('user_id', ll('User id'))->value($this->row->id)->readonly();
+        $this->password('password', ll('Password'))->help(ll("input modify"))->rules("sometimes|nullable|min:6|confirmed");
+        $this->password('password_confirmation', ll('Password confirmation'));
+        $this->password('pay_password', ll('Pay password'))->help(ll("input modify"))->rules("sometimes|nullable|min:6|confirmed");
+        $this->password('pay_password_confirmation', ll('Pay password confirmation'));
 
     }
 

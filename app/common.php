@@ -3,6 +3,7 @@
 use App\Http\Helpers\ApiException;
 use App\Model\Project;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\MessageBag;
 use \Illuminate\Support\Str;
 
 
@@ -12,7 +13,7 @@ function db_start_trans()
 }
 
 
-function db_rollBack($toLevel = null)
+function db_rollBack(int $toLevel = null)
 {
     DB::rollBack($toLevel);
 }
@@ -23,6 +24,15 @@ function db_commit()
     DB::commit();
 }
 
+
+/**
+ * author: mtg
+ * time: 2021/2/24   18:09
+ * function description: 获取全局设置值
+ * @param $key
+ * @param string|null $module
+ * @return \Illuminate\Support\Collection|mixed
+ */
 function conf($key, string $module = null)
 {
     $map = [];
@@ -39,6 +49,7 @@ function conf($key, string $module = null)
 
     return \App\Model\Config::where($map)->value('value');
 }
+
 /**
  * author: mtg
  * time: 2020/12/14   10:18
@@ -49,10 +60,13 @@ function conf($key, string $module = null)
 function ll($key, $replace = [], $locale = null)
 {
     $key = trim($key);
+
     if (strpos($key, '.') !== false) {
         return __($key, $replace, $locale);
     }
-    return __("general." . $key, $replace, $locale);
+    $content = __("general." . $key, $replace, $locale);
+
+    return Str::replaceFirst('general.', '', $content);
 }
 
 
@@ -75,7 +89,7 @@ function form_is_create(\Encore\Admin\Form $form): bool
  * function description: 抛出一个api异常
  * @param  $error
  */
-function new_api_exception($error, $code = 202)
+function new_api_exception($error, $code = 400)
 {
 
     db_rollBack(0);
@@ -101,6 +115,7 @@ function form_validate(array $data, array $rules)
         new_api_exception($errors->all());
     }
 }
+
 
 /**
  * author: mtg
@@ -197,16 +212,49 @@ function get_time_begin_end($scope = "d", $type = 0, $time = null)
             ];
             break;
         default:
-            api_exception('请传入正确的scope参数');
+            new_api_exception('请传入正确的scope参数');
     }
     if ($type) {
         return [
-            get_time_format($rs[0]),
-            get_time_format($rs[1]),
+            format_time_to_string($rs[0]),
+            format_time_to_string($rs[1]),
         ];
     }
     return $rs;
 
+}
+
+
+/**
+ * author: mtg
+ * time: 2021/2/23   19:39
+ * function description:
+ * @param int $type 0 当前系统的时间戳,1 当前系统时间的字符串
+ * @return false|int|string
+ */
+function system_time($type = 0)
+{
+    if ($type === 0) {
+        return time();
+    }
+    return format_time_to_string();
+}
+
+
+/**
+ * author: mtg
+ * time: 2021/2/23   19:42
+ * function description:格式化时间戳成为固定字符串
+ * @param int|null $time
+ * @return false|string
+ */
+function format_time_to_string(int $time = null)
+{
+
+    if (is_null($time)) {
+        $time = system_time();
+    }
+    return date('Y-m-d H:i:s', $time);
 }
 
 /**
@@ -241,6 +289,22 @@ function grid_disabled_all(\Encore\Admin\Grid $grid): \Encore\Admin\Grid
     return $grid;
 }
 
+/**
+ * author: mtg
+ * time: 2021/2/23   19:17
+ * function description:form 保存时返回错误信息
+ * @param string $message
+ * @return \Illuminate\Http\RedirectResponse
+ */
+function form_error(string $message)
+{
+    $error = new MessageBag([
+        'title'   => 'error',
+        'message' => $message,
+    ]);
+    return back()->with(compact('error'));
+}
+
 function human_file_size($size, $unit = ""): string
 {
     if ((!$unit && $size >= 1 << 30) || $unit == "GB")
@@ -255,4 +319,86 @@ function human_file_size($size, $unit = ""): string
 function is_win(): bool
 {
     return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
+}
+
+
+function curl_post(string $url, array $data = null, $isJSON = false)
+{
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_POST, 1);
+
+    if ($isJSON) {
+        $data = json_encode($data);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+    }
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);//将 curl_exec()获取的信息以文件流的形式返回，而不是直接输出。
+
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);//在使用CURLOPT_FOLLOWLOCATION产生的header中的多个locations中持续追加用户名和密码信息，即使域名已发生改变。
+    curl_setopt($ch, CURLOPT_AUTOREFERER, 1);//当根据Location:重定向时，自动设置header中的Referer:信息。
+    curl_setopt($ch, CURLOPT_MAXREDIRS, 4); //指定最多的HTTP重定向的数量，这个选项是和CURLOPT_FOLLOWLOCATION一起使用的。
+
+    curl_setopt($ch, CURLOPT_ENCODING, ""); //HTTP请求头中"Accept-Encoding: "的值。支持的编码有"identity"，"deflate"和"gzip"。如果为空字符串""，请求头会发送所有支持的编码类型。
+    curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 5.1; zh-CN) AppleWebKit/535.12 (KHTML, like Gecko) Chrome/22.0.1229.79 Safari/535.12");
+    curl_setopt($ch, CURLOPT_TIMEOUT, 5); //设置cURL允许执行的最长秒数。
+
+    $result = curl_exec($ch);
+    curl_close($ch);
+    $jsonDecoding = json_decode($result, true);
+
+    return is_null($jsonDecoding) ? $result : $jsonDecoding;
+}
+
+
+function curl_get(string $url)
+{
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $result = curl_exec($ch);
+    curl_close($ch);
+    return json_decode($result, true);
+}
+
+/**
+ * author: mtg
+ * time: 2020/11/4   14:55
+ * function description: 1.加密参数 2.验证签名
+ * @param array $args 参数
+ * @param string $sign 签名
+ * @param string $key 平台给的密钥
+ * @return bool
+ */
+function collect_sign(array $args, string $key, string $sign = null)
+{
+    $args['key'] = $key;
+    ksort($args);
+    $str = http_build_query($args, '', '&');
+    Log::info("通知加密,加密的参数为: $str");
+    $newSign = hash("sha256", $str);
+
+    if (is_null($sign)) {
+        return $newSign;
+    }
+    if ($newSign != $sign) {
+        return false;
+    }
+    return true;
+}
+
+
+/**
+ * author: mtg
+ * time: 2021/2/23   16:38
+ * function description: 百分比字符串转换
+ * @param string $radio
+ * @return string|null
+ */
+function radio_transform(string $radio)
+{
+    if (Str::contains($radio, '%')) {
+        $radio = Str::replaceFirst('%', '', $radio);
+        $radio = bcdiv($radio, 100);
+    }
+    return $radio;
+
 }

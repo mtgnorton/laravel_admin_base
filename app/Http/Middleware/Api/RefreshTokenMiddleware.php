@@ -30,7 +30,7 @@ class RefreshTokenMiddleware extends BaseMiddleware
         try {
             $this->checkForToken($request);
         } catch (\Exception $e) {
-            new_api_exception(__('general.token error'));
+            new_api_exception(ll('token error'));
 
         }
 
@@ -41,7 +41,7 @@ class RefreshTokenMiddleware extends BaseMiddleware
                 return $next($request);
             }
 
-            new_api_exception(__('general.no login'), 203);
+            new_api_exception(ll('no login'), 203);
 
         } catch (TokenExpiredException $exception) {
 
@@ -57,11 +57,11 @@ class RefreshTokenMiddleware extends BaseMiddleware
                 $user->save();
             } catch (JWTException $exception) {
                 // 如果捕获到此异常，即代表 refresh 也过期了，用户无法刷新令牌，需要重新登录。
-                new_api_exception(__('general.please login again'), 203);
+                new_api_exception(ll('please login again'), 203);
 
             }
         } catch (TokenBlacklistedException $exception) {
-            new_api_exception(__('general.already logged in elsewhere'), 203);
+            new_api_exception(ll('already logged in elsewhere'), 203);
 
         }
 

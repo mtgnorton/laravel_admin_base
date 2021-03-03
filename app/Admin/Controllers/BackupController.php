@@ -25,7 +25,7 @@ class BackupController extends AdminController
 
     public function __construct()
     {
-        $this->title = __('Backup list');
+        $this->title = ll('Backup list');
     }
 
     /**
@@ -51,22 +51,22 @@ class BackupController extends AdminController
             $tools->append(new BackupRun());
             $tools->disableBatchActions();
         });
-        $grid->column('id', __('Id'));
+        $grid->column('id', ll('Id'));
 
-        $grid->column('name', __('Backup file name'));
-        $grid->column('size', __('Backup size'));
+        $grid->column('name', ll('Backup file name'));
+        $grid->column('size', ll('Backup size'));
 
         $depot = BackupDestinationStatusFactory::createForMonitorConfig(config('backup.monitor_backups'))->first();
         $disk  = $depot->backupDestination()->disk();
 
-        $grid->column('download', __('Download'))->display(function ($value) use ($disk) {
+        $grid->column('download', ll('Download'))->display(function ($value) use ($disk) {
             return $disk->url($this->path);
 
         })->downloadable();
 
-        $grid->column('created_at', __('Backup time'));
+        $grid->column('created_at', ll('Backup time'));
 
-        $grid->column('recover', __('Recover'))->action(RecoverBackup::class);
+        $grid->column('recover', ll('Recover'))->action(RecoverBackup::class);
 
         return $grid;
     }

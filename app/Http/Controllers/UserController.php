@@ -16,7 +16,7 @@ class UserController extends Controller
     {
         return $this->transfer([
             'token' => app('UserService')->create($request->all()),
-        ], __('general.register success'));
+        ], ll('register success'));
 
     }
 
@@ -31,7 +31,7 @@ class UserController extends Controller
     public function logout()
     {
         Auth::logout();
-        return $this->transfer(__('general.logout success'));
+        return $this->transfer(ll('logout success'));
     }
 
 

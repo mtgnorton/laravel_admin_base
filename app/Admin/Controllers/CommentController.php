@@ -27,12 +27,12 @@ class CommentController extends AdminController
 
         $grid = new Grid(new Comment());
 
-        $grid->column('id', __('Id'));
-        $grid->column('user_id', __('User id'));
-        $grid->column('post_id', __('Post id'));
-        $grid->column('content', __('Content'));
-        $grid->column('created_at', __('Created at'));
-        $grid->column('updated_at', __('Updated at'));
+        $grid->column('id', ll('Id'));
+        $grid->column('user_id', ll('User id'));
+        $grid->column('post_id', ll('Post id'));
+        $grid->column('content', ll('Content'));
+        $grid->column('created_at', ll('Created at'));
+        $grid->column('updated_at', ll('Updated at'));
 
         return $grid;
     }
@@ -47,9 +47,9 @@ class CommentController extends AdminController
     {
         $form = new Form(new Comment());
 
-        $form->number('user_id', __('User id'));
-        $form->number('post_id', __('Post id'));
-        $form->textarea('content', __('Content'));
+        $form->number('user_id', ll('User id'));
+        $form->number('post_id', ll('Post id'));
+        $form->textarea('content', ll('Content'));
 
         return $form;
     }

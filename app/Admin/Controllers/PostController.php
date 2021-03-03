@@ -20,7 +20,7 @@ class PostController extends AdminController
 
     public function __construct()
     {
-        $this->title = __('Post');
+        $this->title = ll('Post');
     }
 
     /**
@@ -32,13 +32,13 @@ class PostController extends AdminController
     {
         $grid = new Grid(new Post());
 
-        $grid->column('id', __('Id'));
-        $grid->column('title', __('Title'))->bold();
-        $grid->column('user_id', __('User id'));
-        $grid->column('cover_path', __('Cover'))->gallery();
+        $grid->column('id', ll('Id'));
+        $grid->column('title', ll('Title'))->bold();
+        $grid->column('user_id', ll('User id'));
+        $grid->column('cover_path', ll('Cover'))->gallery();
 
         /*自适应modal*/
-        $grid->column('image_modal', __('See image'))->customModal(__("Cover"), function ($model) {
+        $grid->column('image_modal', ll('See image'))->customModal(ll("Cover"), function ($model) {
             $imagePath = Storage::disk(config('admin.upload.disk'))->url($this->cover_path);
             return <<<EOT
 <img src="{$imagePath}" style="width:100%;height:100%"  class="img">
@@ -46,9 +46,9 @@ EOT;
         }, "fa-arrows-alt", "1200px", "800px");
 
 
-        $grid->column('content', __('Content'))->limit();
-        $grid->column('created_at', __('Created at'));
-        $grid->column('updated_at', __('Updated at'));
+        $grid->column('content', ll('Content'))->limit();
+        $grid->column('created_at', ll('Created at'));
+        $grid->column('updated_at', ll('Updated at'));
 
         return $grid;
     }
@@ -63,12 +63,12 @@ EOT;
     {
         $form = new Form(new Post());
 
-        $form->number('user_id', __('User id'));
-        $form->image('cover_path', __('Cover'))->uniqueName()->required();
-        $form->text('title', __('Title'));
+        $form->number('user_id', ll('User id'));
+        $form->image('cover_path', ll('Cover'))->uniqueName()->required();
+        $form->text('title', ll('Title'));
 
         /*文本编辑器+上传图片*/
-        $form->fullEditor('content', __('Content'));
+        $form->fullEditor('content', ll('Content'));
 
         return $form;
     }

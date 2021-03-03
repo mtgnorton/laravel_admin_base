@@ -4,18 +4,22 @@
 
 1. git clone 拉取代码    
 2. composer install --no-scripts
-3. php artisan key:generate,将.env生成的APP_KEY复制到go项目的config/config.toml的AppKey,该key不能泄露
 4. 修改.env中的数据库信息
 5. chmod -R a+w storage
 6. php artisan storage:link
-
-
+7. 伪静态
+    ```
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+     }    
+    ```
 
 ##常用命令
 1. 创建model `php artisan make:model 
            App\Model\Post
            ` 
 2. 创建api控制器 `php artisan make:controller PhotoController --resource --model=App\Model\Post`
+3. 创建api资源 `php artisan make:resource WithdrawResource`
 3. 创建admin控制器   `php artisan admin:make UserController --model=App\User`
 `  
 4. 复制扩展包的资源文件`php artisan vendor:publish --provider="Encore\WangEditor\WangEditorServiceProvider"
@@ -35,10 +39,6 @@ php artisan ide-helper:meta - 生成 PhpStorm Meta file
 3. medz/cors
 
 
-## 已实现功能
-1. 异常捕捉
-2. 数据返回
-3. jwt注册 单点登录
 
 
 

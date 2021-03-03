@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Service\Notification\HuanHuiService;
 use App\Service\UserService;
 use Illuminate\Log\Logger;
 use Illuminate\Support\Facades\DB;
@@ -19,7 +20,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton('UserService', function ($app) {
+            return new UserService();
+        });
+        $this->app->singleton('SmsService', function ($app) {
+
+            /***
+             * 根据配置使用不同的短信服务
+             */
+            return new HuanHuiService();
+        });
+
     }
 
     /**
@@ -32,7 +43,6 @@ class AppServiceProvider extends ServiceProvider
         bcscale(8);
 
         $this->recordSqlLog();
-        $this->registerService();
 
 
     }
@@ -44,19 +54,13 @@ class AppServiceProvider extends ServiceProvider
             DB::listen(function ($query) {
                 $sql = str_replace("?", "'%s'", $query->sql);
                 $log = "[{$query->time}ms] " . vsprintf($sql, $query->bindings);
-                file_put_contents(storage_path('logs/sql.log'), $log.PHP_EOL, FILE_APPEND);
+                file_put_contents(storage_path('logs/sql.log'), $log . PHP_EOL, FILE_APPEND);
             });
         }
 
     }
 
 
-    public function registerService()
-    {
-        $this->app->singleton('UserService', function ($app) {
-            return new UserService();
-        });
 
-    }
 
 }

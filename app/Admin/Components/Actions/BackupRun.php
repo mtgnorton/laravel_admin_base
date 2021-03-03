@@ -14,7 +14,7 @@ class BackupRun extends Action
     {
         // $request ...
         if (is_win()) {
-            return $this->response()->error(__('win not support backup'))->refresh();
+            return $this->response()->error(ll('win not support backup'))->refresh();
         }
         try {
             ini_set('max_execution_time', 300);
@@ -24,7 +24,7 @@ class BackupRun extends Action
 
             $output = Artisan::output();
 
-            return $this->response()->success(__('Backup success'))->refresh();
+            return $this->response()->success(ll('Backup success'))->refresh();
 
         } catch (\Exception $e) {
             return $this->response()->error($e->getMessage())->refresh();

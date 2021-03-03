@@ -12,7 +12,7 @@ Route::group([
 ], function (Router $router) {
 
     $router->get('/', 'HomeController@index')->name('home');
-    $router->post('upload', 'CommonController@upload');
+
 
     $router->resources([
         'users'    => 'UserController',
@@ -22,5 +22,15 @@ Route::group([
     $router->get('backups', 'BackupController@index');
     $router->delete('backups/{id}', 'BackupController@destroy');
     $router->any('settings', 'SettingController@index');
+
+
+    $router->resource('advert_categories', 'AdvertCategoryController');
+    $router->resource('adverts', 'AdvertController');
+    $router->resource('announcements', 'AnnouncementController');
+    $router->resource('document_categories', 'DocumentCategoryController');
+    $router->resource('documents', 'DocumentController');
+    $router->resource('app_versions', 'AppVersionController');
+
+    $router->post('upload', 'CommonController@upload');
 
 });

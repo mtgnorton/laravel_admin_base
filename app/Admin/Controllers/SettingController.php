@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Admin\Components\Settings\Site;
 use App\Admin\Components\Settings\Other;
+use App\Admin\Components\Settings\Sms;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Widgets\Tab;
 use Encore\Admin\Layout\Content;
@@ -15,6 +16,7 @@ class SettingController extends Controller
         $forms = [
             'basic' => Site::class,
             'other' => Other::class,
+            'sms'   => Sms::class,
         ];
 
         return $content

@@ -21,7 +21,7 @@ class UserController extends AdminController
 
     public function __construct()
     {
-        $this->title = __('User list');
+        $this->title = ll('User list');
     }
 
     /**
@@ -33,19 +33,19 @@ class UserController extends AdminController
     {
         $grid = new Grid(new User());
 
-        $grid->column('id', __('Id'));
-        $grid->column('username', __('Username'));
-        $grid->column('see_post', __('See post'))->customModal(__('Post list'), PostRender::class);
-        $grid->column('email', __('Email'));
-        $grid->column('mobile', __('Mobile'));
-        $grid->column('is_disabled', __('Is disabled'))->switch([
-            'on'  => ['value' => 1, 'text' => __('Yes'), 'color' => 'danger'],
-            'off' => ['value' => 0, 'text' => __('No'), 'color' => 'primary']
+        $grid->column('id', ll('Id'));
+        $grid->column('username', ll('Username'));
+        $grid->column('see_post', ll('See post'))->customModal(ll('Post list'), PostRender::class);
+        $grid->column('email', ll('Email'));
+        $grid->column('mobile', ll('Mobile'));
+        $grid->column('is_disabled', ll('Is disabled'))->switch([
+            'on'  => ['value' => 1, 'text' => ll('Yes'), 'color' => 'danger'],
+            'off' => ['value' => 0, 'text' => ll('No'), 'color' => 'primary']
         ]);
 
-        $grid->column('created_at', __('Created at'));
-        $grid->column('updated_at', __('Updated at'));
-        $grid->column('password_modify', __('Password modify'))->action(ModifyPassword::class);
+        $grid->column('created_at', ll('Created at'));
+        $grid->column('updated_at', ll('Updated at'));
+        $grid->column('password_modify', ll('Password modify'))->action(ModifyPassword::class);
 
         return $grid;
     }
@@ -60,14 +60,14 @@ class UserController extends AdminController
     {
         $form = new Form(new User());
 
-        $form->text('username', __('Username'));
-        $form->email('email', __('Email'));
-        $form->mobile('mobile', __('Mobile'));
-        $form->switch('is_disabled', __('Is disabled'))->switch([
-            'on'  => ['value' => 1, 'text' => __('Yes'), 'color' => 'danger'],
-            'off' => ['value' => 0, 'text' => __('No'), 'color' => 'primary']
+        $form->text('username', ll('Username'));
+        $form->email('email', ll('Email'));
+        $form->mobile('mobile', ll('Mobile'));
+        $form->switch('is_disabled', ll('Is disabled'))->switch([
+            'on'  => ['value' => 1, 'text' => ll('Yes'), 'color' => 'danger'],
+            'off' => ['value' => 0, 'text' => ll('No'), 'color' => 'primary']
         ]);;
-        $form->text('last_token', __('Last token'));
+        $form->text('last_token', ll('Last token'));
         return $form;
     }
 }

@@ -18,12 +18,12 @@ class Site extends Base
     public function form()
     {
 
-        $this->text('site_name', __("Site name"))->rules('required');
+        $this->text('site_name', ll("Site name"))->rules('required');
     }
 
 
     public function tabTitle()
     {
-        return __('Site setting');
+        return ll('Site setting');
     }
 }

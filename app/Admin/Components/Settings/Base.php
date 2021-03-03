@@ -60,7 +60,7 @@ abstract class Base extends Form
                 ]);
         });
 
-        admin_success(__('Update success'));
+        admin_success(ll('Update success'));
 
         return back();
     }

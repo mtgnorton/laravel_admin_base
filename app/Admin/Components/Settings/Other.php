@@ -18,12 +18,12 @@ class Other extends Base
     public function form()
     {
 
-        $this->text('other_config', __("Other config"))->rules('required');
+        $this->text('other_config', ll("Other config"))->rules('required');
     }
 
 
     public function tabTitle()
     {
-        return __('Other');
+        return ll('Other');
     }
 }

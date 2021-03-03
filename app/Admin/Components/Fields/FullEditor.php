@@ -40,6 +40,10 @@ class FullEditor extends Field
     const editor = new E('#{$this->id}')
     editor.config.uploadImgParams = {_token: '$token'}
     Object.assign(editor.config, {$config})
+
+    editor.config.onchange = function (html) {
+        $('#input-{$this->id}').val(html);
+    }
     editor.create()
     $('#{$this->id}').css({"margin-top":"20px"})
     $('#{$this->id}').attr('initialized', 1);
