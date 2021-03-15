@@ -9,6 +9,7 @@ use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends AdminController
 {
@@ -60,14 +61,41 @@ class UserController extends AdminController
     {
         $form = new Form(new User());
 
-        $form->text('username', ll('Username'));
-        $form->email('email', ll('Email'));
-        $form->mobile('mobile', ll('Mobile'));
-        $form->switch('is_disabled', ll('Is disabled'))->switch([
-            'on'  => ['value' => 1, 'text' => ll('Yes'), 'color' => 'danger'],
-            'off' => ['value' => 0, 'text' => ll('No'), 'color' => 'primary']
-        ]);;
-        $form->text('last_token', ll('Last token'));
+
+        $form
+            ->tab(ll('Basic info'), function (Form $form) {
+                $form->text('username', ll('Username'));
+                $form->email('email', ll('Email'));
+                $form->mobile('mobile', ll('Mobile'));
+                $form->switch('is_disabled', ll('Is disabled'))->states([
+                    'on'  => ['value' => 1, 'text' => ll('Yes'), 'color' => 'danger'],
+                    'off' => ['value' => 0, 'text' => ll('No'), 'color' => 'primary']
+                ]);
+                $form->text('api_token', ll('Last token'));
+            })
+            ->tab(ll('Password'), function (Form $form) {
+
+                $form->password('modify_password', ll('Password'))->help(ll("input modify"))->rules("sometimes|nullable|min:6|confirmed");
+
+                $form->password('modify_password_confirmation', ll('Password confirmation'));
+                $form->password('modify_pay_password', ll('Pay password'))->help(ll("input modify"))->rules("sometimes|nullable|min:6|confirmed");
+                $form->password('modify_pay_password_confirmation', ll('Pay password confirmation'));
+
+            });
+
+        $form->ignore(['modify_password', 'modify_pay_password', 'modify_password_confirmation', 'modify_pay_password_confirmation']);
+        $form->saving(function (Form $form) {
+            if ($form->modify_password) {
+
+                $form->password = Hash::make($form->modify_password);
+            }
+            if ($form->modify_pay_password) {
+
+                $form->pay_password = Hash::make($form->modify_pay_password);
+            }
+
+
+        });
         return $form;
     }
 }

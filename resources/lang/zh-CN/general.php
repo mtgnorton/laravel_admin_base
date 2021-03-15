@@ -114,6 +114,13 @@ return [
     'huan hui account'                 => '环汇账号',
     'huan hui password'                => '环汇密码',
 
+    /////////////////////////////////////////存储设置
+    'Storage setting'                                     => '存储设置',
+    'Aliyun storage setting'                              => '阿里云存储设置',
+    'Storage type'                                        => '存储类型',
+    'Local'                                               => '本地',
+    'Ali yun'                                             => '阿里云',
+    "the value modify,before upload will cant see"        => '该选项修改后,之前上传的图片将不可见',
 
     ////////////////////////////////////////////////////////////////////////////////////// 前台
     'register success'                 => '注册成功',
