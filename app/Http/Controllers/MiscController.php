@@ -28,7 +28,8 @@ class MiscController extends Controller
             'is_disabled' => 0,
             'category_id' => $categoryID
         ])->orderBy('sort')->get()->map(function ($item) {
-            $item['image_path'] = \Storage::disk('admin')->url($item['image_path']);
+
+            $item['image_path'] = \Storage::disk(config("admin.upload.disk"))->url($item['image_path']);
             return $item;
         });
 
