@@ -121,6 +121,11 @@ return [
     'Local'                                               => '本地',
     'Ali yun'                                             => '阿里云',
     "the value modify,before upload will cant see"        => '该选项修改后,之前上传的图片将不可见',
+    /////////////////////////////////////////短信模板设置
+    'Sms template setting'                                => '短信模板设置',
+    'auth code'                                           => '验证码',
+    "{} inside content don't modify"                      => '{} 里面的内容不要修改',
+
 
     ////////////////////////////////////////////////////////////////////////////////////// 前台
     'register success'                 => '注册成功',

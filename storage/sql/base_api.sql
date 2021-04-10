@@ -3,16 +3,30 @@ CREATE TABLE `users`  (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `username` varchar(50) not null default '' comment '用户名',
   `password`  varchar(255) not null default '' comment '密码',
-  `pay_password`  varchar(255) not null default '' comment '支付密码',
+  `pay_password`  null default null comment '支付密码',
   `email` varchar(50) NOT NULL DEFAULT '' COMMENT '电子邮箱',
   `mobile` varchar(11) NOT NULL DEFAULT '' COMMENT '手机号',
   `is_disabled` tinyint(1)  unsigned not null default 0 comment '是否禁用',
   `description` text null comment '简介',
+  `invite_code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '邀请码',
+  `parent_id` int(11) NOT NULL DEFAULT 0 COMMENT '上级id',
   `last_token` varchar (600)  null default null comment '最后一次登录的token',
   `created_at` timestamp(0) NULL DEFAULT NULL,
   `updated_at` timestamp(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic comment='用户表';
+
+DROP TABLE IF EXISTS `user_recommend_relation`;
+CREATE TABLE `user_recommend_relation`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NULL DEFAULT NULL COMMENT '用户ID',
+  `parent_id` int(11) NULL DEFAULT NULL COMMENT '上级ID',
+  `layer` int(11) NULL DEFAULT NULL COMMENT '层数',
+  `created_at` timestamp(0) NULL DEFAULT NULL,
+  `updated_at` timestamp(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '用户推荐关系表' ROW_FORMAT = Dynamic;
+
 
 
 DROP TABLE IF EXISTS `posts`;
@@ -149,3 +163,34 @@ CREATE TABLE `app_versions` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='app版本升级';
 
+DROP TABLE IF EXISTS `configs`;
+CREATE TABLE `configs`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `module` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '模块名',
+  `key` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '键值',
+  `value` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '键对应的值',
+  `create_at` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `update_at` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  `is_json` tinyint(1) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `key_idx`(`key`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统配置表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of configs
+-- ----------------------------
+INSERT INTO `configs` VALUES (11, 'site', 'site_name', '213', '2021-01-21 11:30:30', '2021-01-21 11:30:30', NULL);
+INSERT INTO `configs` VALUES (12, 'other', 'other_config', '213', '2021-01-21 11:30:33', '2021-01-21 11:30:33', NULL);
+INSERT INTO `configs` VALUES (13, 'sms', 'huan_hui_user_id', '702', '2021-02-27 12:28:01', '2021-02-27 12:28:01', NULL);
+INSERT INTO `configs` VALUES (14, 'sms', 'huan_hui_account', '210', '2021-02-27 12:28:01', '2021-02-27 12:28:01', NULL);
+INSERT INTO `configs` VALUES (15, 'sms', 'huan_hui_password', '4285551a', '2021-02-27 12:28:01', '2021-02-27 12:28:01', NULL);
+INSERT INTO `configs` VALUES (16, 'sms', 'sms_send_diff_min', '1', '2021-02-27 12:28:01', '2021-02-27 12:28:01', NULL);
+INSERT INTO `configs` VALUES (17, 'sms', 'sms_send_day_max', '10', '2021-02-27 12:28:01', '2021-02-27 12:28:01', NULL);
+INSERT INTO `configs` VALUES (18, 'sms', 'sms_effective_time', '5', '2021-02-27 12:28:01', '2021-02-27 12:28:01', NULL);
+INSERT INTO `configs` VALUES (19, 'storage', 'storage_type', 'admin', '2021-03-15 11:07:21', '2021-03-15 11:07:21', NULL);
+INSERT INTO `configs` VALUES (20, 'storage', 'access_id', 'LTAIog09GLW5pHZp', '2021-03-15 11:07:21', '2021-03-15 11:07:21', NULL);
+INSERT INTO `configs` VALUES (21, 'storage', 'access_key', 'la1whWUQZJURdikJvRsp4SbUqkjKdd', '2021-03-15 11:07:21', '2021-03-15 11:07:21', NULL);
+INSERT INTO `configs` VALUES (22, 'storage', 'bucket', 'shangtukeji', '2021-03-15 11:07:21', '2021-03-15 11:07:21', NULL);
+INSERT INTO `configs` VALUES (23, 'storage', 'endpoint', 'oss-cn-hongkong.aliyuncs.com', '2021-03-15 11:07:21', '2021-03-15 11:07:21', NULL);
+INSERT INTO `configs` VALUES (24, 'smstemplate', 'auth_code_content', '【{$siteName}】验证码：{$code}，{$expireTime}分钟内有效,切勿告知他人！', '2021-04-10 11:06:32', '2021-04-10 11:06:32', NULL);
+INSERT INTO `configs` VALUES (25, 'smstemplate', 'template_hello_word', '【{$siteName}】 hello world', '2021-04-10 11:06:32', '2021-04-10 11:06:32', NULL);

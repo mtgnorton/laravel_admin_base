@@ -19,11 +19,11 @@
         <!-- search form (Optional) -->
         <form class="sidebar-form" style="overflow: initial;" onsubmit="return false;">
             <div class="input-group">
-                <input type="text" autocomplete="off" class="form-control autocomplete" placeholder="Search...">
-              <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                </button>
-              </span>
+{{--                <input type="text" autocomplete="off" class="form-control autocomplete" placeholder="Search...">--}}
+{{--              <span class="input-group-btn">--}}
+{{--                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>--}}
+{{--                </button>--}}
+{{--              </span>--}}
                 <ul class="dropdown-menu" role="menu" style="min-width: 210px;max-height: 300px;overflow: auto;">
                     @foreach(Admin::menuLinks() as $link)
                     <li>

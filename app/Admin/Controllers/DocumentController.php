@@ -59,7 +59,7 @@ class DocumentController extends AdminController
         $form->text('identify', ll('Identify'))->help(ll("the value can't modify"));
         $form->select('category_id', ll('Category'))->options(DocumentCategory::selectOptions());
         $form->fullEditor('content', ll('Content'));
-        $form->number('sort', ll('Sort'));
+        $form->number('sort', ll('Sort'))->default(0);
         $form->switch('is_disabled', ll('Is disabled'));
 
         return $form;

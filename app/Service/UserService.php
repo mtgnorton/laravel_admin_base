@@ -4,11 +4,13 @@ namespace App\Service;
 
 
 use App\ApiException;
+use App\Model\Message;
 use App\Model\User;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 
 class UserService
@@ -19,25 +21,40 @@ class UserService
     {
 
         form_validate($data, [
-            'username' => 'required|unique:users|max:20',
-            'mobile'   => 'required|regex:/^1[34578][0-9]{9}$/',
-            'password' => 'required|min:6',
+            'username'              => 'required|unique:users|max:20',
+            'mobile'                => 'required|regex:/^1[34578][0-9]{9}$/',
+            'code'                  => 'required|auth_code:' . $data['mobile'] . ',' . Message::Type['REGISTER_CODE'],
+            'password'              => 'required|min:6',
+            'password_confirmation' => 'required',
+            'invite_code'           => ['exists:users']
         ]);
 
         $data['password'] = Hash::make($data['password']);
 
-        $token = "";
-        DB::transaction(function () use ($data, &$token, $login) {
+        db_start_trans();
 
-            $user = User::create($data);
+        $parent = User::newModelInstance(['id' => 0]);
 
-            if ($login) {
-                $token = Auth::login($user);
-            }
+        if (isset($data['invite_code'])) {
+            $parent = User::where('invite_code', $data['invite_code'])->first();
+        }
+        $registerData = collect($data)
+            ->only(['username', 'mobile', 'password'])
+            ->toArray();
 
-        });
+        $registerData['parent_id']   = $parent->id;
+        $registerData['invite_code'] = Str::uuid()->getHex();
+        $user                        = User::create($registerData);
+        $user->createRelation($parent);
+        app('SmsService')->useAuthCode($data['mobile'], $data['code']);
 
-        return $token;
+        $user->update([
+            'parent_id' => $parent->id
+        ]);
+        db_commit();
+
+
+        return $user;
     }
 
 

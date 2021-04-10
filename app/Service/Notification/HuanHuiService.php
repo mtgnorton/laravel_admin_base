@@ -21,9 +21,11 @@ class HuanHuiService extends Sms
         $userID   = conf('huan_hui_user_id', 'sms');
         $account  = conf('huan_hui_account', 'sms');
         $password = conf('huan_hui_password', 'sms');
-        $request  = "http://47.104.1.60:8888/sms.aspx?action=send&userid={$userID}&account={$account}&password={$password}&mobile={$target}&content={$content}&sendTime=&extno=";
+        $content  = urlencode($content);
 
-        $rs = curl_post($request);
+        $request = "http://47.104.1.60:8888/sms.aspx?action=send&userid={$userID}&account={$account}&password={$password}&mobile={$target}&sendTime=&extno=&content={$content}";
+
+        $rs = curl_get($request, false);
 
 
         $successMsg = '<message>ok</message>';

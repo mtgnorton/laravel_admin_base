@@ -31,9 +31,12 @@ abstract class Sms
         $expireTime = conf('sms_effective_time');
         $code       = mt_rand(100000, 999999);
 
-        $content = <<<EOT
-【{$siteName}】验证码：${code}，{$expireTime}分钟内有效,切勿告知他人！
-EOT;
+
+        $content = conf('auth_code_content');
+
+        eval("\$content = \"$content\";");
+
+
         $this->checkLimit($target);
 
         $this->send($target, $content);
@@ -52,6 +55,31 @@ EOT;
 
     /**
      * author: mtg
+     * time: 2021/4/10   10:27
+     * function description: 发送提示内容
+     * @param string $target 手机号
+     * @param int $type 发送的内容类型
+     */
+    public function sendGeneral(string $target, $type = Message::Type['HELLO_WORLD'])
+    {
+        $content = "";
+        switch ($type) {
+            case Message::Type['HELLO_WORLD'] :
+                $content = conf('template_hello_word');
+                break;
+        }
+        if (!$content) {
+            return false;
+        }
+        $siteName = conf('site_name');
+
+        eval("\$content = \"$content\";");
+        $this->send($target, $content);
+        return true;
+    }
+
+    /**
+     * author: mtg
      * time: 2021/2/27   10:01
      * function description: 验证验证码
      * @param string $target 手机号
@@ -61,7 +89,7 @@ EOT;
      */
     public function validateAuthCode(string $target, string $code, string $type = Message::Type['REGISTER']): bool
     {
-        if ($code == "~~~~~~") {
+        if (env('APP_DEBUG') && $code == "~~~~~~") {
             return true;
         }
 
@@ -90,12 +118,26 @@ EOT;
             new_api_exception(ll('auth code error'));
         }
 
-        $message->update([
-            'is_use' => 1
-        ]);
 
         return true;
 
+    }
+
+    /**
+     * author: mtg
+     * time: 2021/3/2   12:10
+     * function description:标记验证码已被使用
+     * @param string $mobile
+     * @param string $code
+     */
+    public function useAuthCode(string $mobile, string $code)
+    {
+        Message::where([
+            'target' => $mobile,
+            'code'   => $code
+        ])->update([
+            'is_use' => 1
+        ]);
     }
 
 

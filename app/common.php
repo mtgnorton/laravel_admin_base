@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\MessageBag;
 use \Illuminate\Support\Str;
 
+use Illuminate\Support\Facades\DB;
 
 function db_start_trans()
 {
@@ -29,25 +30,52 @@ function db_commit()
  * author: mtg
  * time: 2021/2/24   18:09
  * function description: 获取全局设置值
- * @param $key
- * @param string|null $module
+ * @param $keys  string|array 如 site_name或['site_name','bucket']或['site.site_name','storage.bucket']
+ * @param $default string|null 当不存在时的默认值
  * @return \Illuminate\Support\Collection|mixed
  */
-function conf($key, string $module = null)
+function conf($keys, $default = null)
 {
-    $map = [];
 
-    if (!is_null($module)) {
-        $map[] = [
-            'module', '=', $module
-        ];
+    $isSingle = false;
+    if (!is_array($keys)) {
+        $keys     = array($keys);
+        $isSingle = true;
     }
-    if (is_array($key)) {
-        return \App\Model\Config::where($map)->whereIn('key', $key)->pluck('value', 'key');
-    }
-    $map[] = ['key', '=', $key];
 
-    return \App\Model\Config::where($map)->value('value');
+    Cache::delete('configs');
+    $configs = Cache::rememberForever('configs', function () {
+
+        $configs             = \App\Model\Config::get();
+        $configsWithKey      = $configs->mapWithKeys(function ($item) {
+            return [
+                $item['key'] => $item
+            ];
+        })->toArray();
+        $configWithKeyModule = $configs->mapWithKeys(function ($item) {
+            return [
+                $item['key'] . $item['module'] => $item
+            ];
+        })->toArray();
+
+        return array_merge($configsWithKey, $configWithKeyModule);
+    });
+
+    $result = [];
+    foreach ($keys as $key) {
+        $module = '';
+        if (Str::contains($key, '.')) {
+            $module = explode('.', $key)[0];
+            $key    = explode('.', $key)[1];
+        }
+        $item = data_get($configs, $key . $module);
+
+        $result[$key] = $item['is_json'] ? json_decode($item['value'], true) : $item['value'];
+    }
+    if ($isSingle) {
+        return current($result) ?? $default;
+    }
+    return $result;
 }
 
 /**
@@ -116,7 +144,6 @@ function form_validate(array $data, array $rules)
     }
 }
 
-
 /**
  * author: mtg
  * time: 2020/12/11   10:09
@@ -132,8 +159,14 @@ function dump_sql($callback)
 
     $queries = DB::getQueryLog();
 
-    dump($queries);
-    exit;
+
+    $sql = $queries[0]['query'];
+
+    foreach ($queries[0]['bindings'] as $binding) {
+        $sql = Str::replaceFirst('?', $binding, $sql);
+    }
+    dump($queries, $sql);
+
 }
 
 
@@ -289,6 +322,28 @@ function grid_disabled_all(\Encore\Admin\Grid $grid): \Encore\Admin\Grid
     return $grid;
 }
 
+
+function grid_disabled_new_and_edit(\Encore\Admin\Grid $grid): \Encore\Admin\Grid
+{
+    $grid->disableCreateButton();
+    $grid->actions(function ($actions) {
+        $actions->disableView(false);
+        $actions->disableEdit();
+        $actions->disableDelete();
+    });
+    return $grid;
+}
+
+function show_disabled_edit_and_delete(Encore\Admin\Show $show): \Encore\Admin\Show
+{
+    $show->panel()
+        ->tools(function ($tools) {
+            $tools->disableEdit();
+            $tools->disableDelete();
+        });
+    return $show;
+}
+
 /**
  * author: mtg
  * time: 2021/2/23   19:17
@@ -298,12 +353,17 @@ function grid_disabled_all(\Encore\Admin\Grid $grid): \Encore\Admin\Grid
  */
 function form_error(string $message)
 {
+    $argsNumber = count(request()->all());
+    if ($argsNumber == 3) {
+        new_api_exception($message);
+    }
     $error = new MessageBag([
         'title'   => 'error',
         'message' => $message,
     ]);
-    return back()->with(compact('error'));
+    return back()->with(compact('error'))->withInput();
 }
+
 
 function human_file_size($size, $unit = ""): string
 {
@@ -324,6 +384,8 @@ function is_win(): bool
 
 function curl_post(string $url, array $data = null, $isJSON = false)
 {
+    $timeBegin = system_time(1);
+    Log::info("开始执行时间{$timeBegin}");
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_POST, 1);
 
@@ -340,23 +402,36 @@ function curl_post(string $url, array $data = null, $isJSON = false)
 
     curl_setopt($ch, CURLOPT_ENCODING, ""); //HTTP请求头中"Accept-Encoding: "的值。支持的编码有"identity"，"deflate"和"gzip"。如果为空字符串""，请求头会发送所有支持的编码类型。
     curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 5.1; zh-CN) AppleWebKit/535.12 (KHTML, like Gecko) Chrome/22.0.1229.79 Safari/535.12");
-    curl_setopt($ch, CURLOPT_TIMEOUT, 5); //设置cURL允许执行的最长秒数。
+    curl_setopt($ch, CURLOPT_TIMEOUT, 10); //设置cURL允许执行的最长秒数。
 
     $result = curl_exec($ch);
     curl_close($ch);
+
+    if (env('APP_DEBUG')) {
+        Log::info($result);
+    }
     $jsonDecoding = json_decode($result, true);
 
-    return is_null($jsonDecoding) ? $result : $jsonDecoding;
+    $content = is_null($jsonDecoding) ? $result : $jsonDecoding;
+
+    $timeEnd = system_time(1);
+    Log::info("结束执行时间{$timeEnd}");
+    return $content;
 }
 
 
-function curl_get(string $url)
+function curl_get(string $url, $isReturnJSON = true)
 {
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $result = curl_exec($ch);
+
     curl_close($ch);
-    return json_decode($result, true);
+
+    if ($isReturnJSON) {
+        return json_decode($result, true);
+    }
+    return $result;
 }
 
 /**
@@ -402,3 +477,9 @@ function radio_transform(string $radio)
     return $radio;
 
 }
+
+
+
+
+
+

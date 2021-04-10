@@ -60,6 +60,10 @@ return [
             'url'        => env('APP_URL') . '/storage/',
             'visibility' => 'public',
         ],
+        'sql'       => [ //数据库文件
+            'driver'     => 'local',
+            'root'       => storage_path('sql'),
+        ],
         'ali_cloud' => [
             'driver'     => 'oss',
             'access_id'  => 'LTAIog09GLW5pHZp',

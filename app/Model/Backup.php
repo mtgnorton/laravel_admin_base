@@ -5,10 +5,8 @@ namespace App\Model;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Request;
-use Spatie\Backup\Commands\ListCommand;
 use Spatie\Backup\Tasks\Monitor\BackupDestinationStatus;
 use Spatie\Backup\Tasks\Monitor\BackupDestinationStatusFactory;
 
@@ -16,7 +14,6 @@ class Backup extends Model
 {
     public function paginate()
     {
-
 
         $perPage = Request::get('per_page', 10);
 
@@ -44,7 +41,6 @@ class Backup extends Model
 
         return $paginator;
     }
-
 
     public static function getFilePathByModifyTime(int $time)
     {
@@ -110,7 +106,7 @@ class Backup extends Model
     // 覆盖`orderBy`来收集排序的字段和方向
     public function orderBy($column, $direction = 'asc')
     {
-
+        return $this;
     }
 
     // 覆盖`where`来收集筛选的字段和条件

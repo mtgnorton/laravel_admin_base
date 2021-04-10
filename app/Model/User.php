@@ -4,6 +4,7 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
@@ -68,7 +69,81 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Comment::class);
     }
+    /**
+     * author: mtg
+     * time: 2021/4/2   18:17
+     * function description:所有上级
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function parents()
+    {
+        return $this->belongsToMany(User::class, 'user_recommend_relation', 'user_id', 'parent_id')->withPivot('layer')->orderBy('layer', 'asc');
+    }
+
+    /**
+     * author: mtg
+     * time: 2021/4/2   18:17
+     * function description:所有下级
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function children()
+    {
+        return $this->belongsToMany(User::class, 'user_recommend_relation', 'parent_id', 'user_id')->withPivot('layer')->orderBy('layer', 'asc');
+    }
 
 
+    public function createRelation(User $parent)
+    {
+        if ($parent->id == 0) {
+            return;
+        }
+        $parents = $parent->parents->prepend($parent);
+
+        $userLayers = $parents->mapWithKeys(function ($parent) {
+            $layer = data_get($parent, 'pivot') ? $parent->pivot->layer + 1 : 1;
+            return [
+                $parent->id => [
+                    'layer' => $layer
+                ]
+            ];
+        });
+        $this->parents()->attach($userLayers);
+    }
+
+
+    /**
+     * author: mtg
+     * time: 2021/3/25   16:50
+     * function description:是否设置支付密码
+     */
+    public function hasPayPassword()
+    {
+        return !!$this->pay_password;
+    }
+
+    /**
+     * author: mtg
+     * time: 2021/3/25   16:48
+     * function description:验证支付密码
+     * @param $inputPayPassword
+     * @return bool
+     */
+    public function validatePayPassword($inputPayPassword)
+    {
+        return Hash::check($inputPayPassword, $this->pay_password);
+
+    }
+
+
+    /**
+     * author: mtg
+     * time: 2021/4/2   17:51 用户是否禁用
+     * function description:
+     * @return bool
+     */
+    public function isDisabled()
+    {
+        return !!$this->is_disabled;
+    }
 
 }

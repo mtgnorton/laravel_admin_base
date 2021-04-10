@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 
+use App\Define\UploadDefine;
 use App\Http\Resources\AnnouncementResource;
 use App\Model\Advert;
 use App\Model\AdvertCategory;
 use App\Model\Announcement;
+use App\Model\AppVersion;
 use App\Model\Message;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class MiscController extends Controller
@@ -86,6 +90,7 @@ class MiscController extends Controller
         return $this->transfer(ll('Send success'));
     }
 
+
     /**
      * author: mtg
      * time: 2021/3/2   14:45
@@ -96,7 +101,8 @@ class MiscController extends Controller
 
         $data = request()->all();
         form_validate($data, [
-            'version' => ['version']
+            'client_type' => ['required', Rule::in(AppVersion::CLIENT_TYPE)],
+            'version'     => ['version']
         ]);
 
         $rs = app('MiscService')->version(request('client_type'), request('version'));
@@ -104,5 +110,36 @@ class MiscController extends Controller
         return $this->transfer($rs);
     }
 
+
+
+    public function uploads(Request $request)
+    {
+
+
+        $args = $request->all();
+
+
+        $uploadMaxSize = conf('upload_file_max_size');
+        $fileMaxSize   = $uploadMaxSize ? $uploadMaxSize * 1024 : 10 * 1024;
+
+        form_validate($args, [
+            'folder'   => ['required', Rule::in(UploadDefine::FRONT_UPLOAD_FOLDER)],
+            'images'   => ['required', 'array','max:5'],
+            'images.*' => ['image', 'max:' . $fileMaxSize]
+        ]);
+
+
+        foreach ($request->file('images') as $image) {
+
+            $url    = Storage::url(Storage::put($args['folder'], $image));
+
+            $urls[] = $url;
+        }
+
+
+        return $this->transfer([
+            'url' => $urls
+        ]);
+    }
 
 }

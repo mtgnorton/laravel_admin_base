@@ -34,6 +34,8 @@ class Message extends Base
         'REGISTER_CODE'        => 1,
         'FORGET_PASSWORD_CODE' => 5,
         'SET_PAY_PASSWORD'     => 10,
+
+        'HELLO_WORLD' => 880
     ];
 
 
