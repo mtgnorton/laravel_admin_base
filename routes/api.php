@@ -22,7 +22,10 @@ Route::group(
         Route::any("/user_register", "UserController@register");
         Route::any("/user_login", "UserController@login");
 
+        Route::post("/user_logout", "UserController@logout");
+
         Route::post('user_forget_password', 'UserController@forgetPassword');
+
 
         Route::get('sms_get_code', 'MiscController@SmsCode');
         Route::post('misc_uploads', 'MiscController@uploads'); //通用上传接口

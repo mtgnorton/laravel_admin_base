@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 
 class ConfigServiceProvider extends ServiceProvider
 {
@@ -14,6 +15,12 @@ class ConfigServiceProvider extends ServiceProvider
     public function register()
     {
 
+        if (Str::contains(request()->path(), 'redis')) {
+
+            config([
+                "database.redis.client" => 'predis'
+            ]);
+        }
 
     }
 

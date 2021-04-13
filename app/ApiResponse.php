@@ -21,7 +21,7 @@ trait ApiResponse
      * @param string $msg
      * @return \Illuminate\Http\JsonResponse
      */
-    public function transfer($data = [], $msg = null, $code = 400)
+    public function transfer($data = [], $msg = null, $code = 200)
     {
         if (is_string($data)) {
             $msg  = $data;

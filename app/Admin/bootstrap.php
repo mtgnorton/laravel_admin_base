@@ -18,6 +18,7 @@
  *
  */
 
+use App\Admin\Components\Actions\ClearCache;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Grid\Column;
@@ -56,3 +57,9 @@ Form::extend("fullEditor", \App\Admin\Components\Fields\FullEditor::class);
 
 
 app('view')->prependNamespace('admin', resource_path('views/admin'));
+Admin::navbar(function (\Encore\Admin\Widgets\Navbar $navbar) {
+
+    $navbar->right(new ClearCache());
+
+
+});

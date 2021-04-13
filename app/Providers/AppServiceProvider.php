@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Service\DeveloperService;
 use App\Service\Notification\HuanHuiService;
 use App\Service\UserService;
 use Illuminate\Log\Logger;
@@ -22,6 +23,9 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->singleton('UserService', function ($app) {
             return new UserService();
+        });
+        $this->app->singleton('DeveloperService', function ($app) {
+            return new DeveloperService();
         });
         $this->app->singleton('SmsService', function ($app) {
 
@@ -59,8 +63,6 @@ class AppServiceProvider extends ServiceProvider
         }
 
     }
-
-
 
 
 }

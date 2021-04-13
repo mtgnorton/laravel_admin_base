@@ -33,4 +33,7 @@ Route::group([
 
     $router->post('upload', 'CommonController@upload');
 
+
+    $router->post('open_developer', 'SettingController@openDeveloper');
+    $router->any('developer_settings', 'DeveloperSettingController@index');
 });
