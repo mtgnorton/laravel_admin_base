@@ -19,10 +19,12 @@ Route::group([
         'posts'    => 'PostController',
         'comments' => 'CommentController',
     ]);
+    $router->resource('certifications', 'CertificationController');
     $router->get('backups', 'BackupController@index');
     $router->delete('backups/{id}', 'BackupController@destroy');
     $router->any('settings', 'SettingController@index');
 
+    $router->any('developer_commands', 'DeveloperCommandController@index');
 
     $router->resource('advert_categories', 'AdvertCategoryController');
     $router->resource('adverts', 'AdvertController');

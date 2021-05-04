@@ -30,7 +30,7 @@ return [
     "Username"                                => "用户名",
     "Email"                                   => "邮箱",
     "Mobile"                                  => "手机",
-    "Password modify"                         => "密码修改",
+    "Password modify"                              => "密码修改",
     "Password"                                => "密码",
     "Password confirmation"                   => "密码确认",
     "Pay password"                            => "支付密码",
@@ -38,6 +38,19 @@ return [
     "input modify"                            => "输入修改",
     "Modify success"                          => "修改成功",
     "No modify"                               => "没有修改",
+    /////////////////////////////////////////实名认证管理
+    'Certification list'                                      => '实名认证列表',
+    'True name'                                               => '姓名',
+    'Id card'                                                 => '身份证号',
+    'Card image front'                                        => '身份证正面',
+    'Card image behind'                                       => '身份证反面',
+    'user has certification'                                  => '用户已经完成实名认证',
+    'user has audit'                                          => '用户已经审核',
+    'Audit'                                                   => '审核',
+    'Refuse'                                                  => '拒绝',
+    'Pass audit'                                              => '审核通过',
+    'No audit'                                                => '未审核',
+
     //  "博客列表",
     "Cover"                                   => "封面图",
     "See image"                               => "查看图片",
@@ -52,6 +65,7 @@ return [
     "Recover success"                         => "恢复成功",
     "Confirm recover"                         => "确定恢复?",
     "Download"                                => "下载",
+
 
     /////////////////////////////////////////广告分类广告管理'
     'Advert category manage'                  => '广告分类管理',
@@ -126,9 +140,12 @@ return [
     'auth code'                                    => '验证码',
     "{} inside content don't modify"               => '{} 里面的内容不要修改',
     /////////////////////////////////////////开发者
-    'Developer setting'                            => '开发者设置',
-    'restart go command'                           => '重启go命令',
-    'win not support restart'                      => 'window不支持重启go端程序',
+    'Developer setting'                                   => '开发者设置',
+    'restart go command'                                  => '重启go命令',
+    'win not support restart'                             => 'window不支持重启go端程序',
+    'Developer commands'                                  => '开发者命令',
+
+
     ////////////////////////////////////////////////////////////////////////////////////// 前台
     'register success'                             => '注册成功',
     'no login'                                     => '尚未登录',

@@ -2,13 +2,13 @@
 
 namespace App\Admin\Components\Actions;
 
-use Encore\Admin\Actions\Action;
+use Encore\Admin\Actions\RowAction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-class RecoverOrigin extends Action
+class RecoverOrigin extends RowAction
 {
     protected $selector = '.recover-origin';
 
@@ -53,10 +53,10 @@ class RecoverOrigin extends Action
         $this->confirm('确定恢复？');
     }
 
-    public function html()
+    public function display($value)
     {
         return <<<HTML
-        <a class="btn btn-sm btn-danger recover-origin">恢复原始数据</a>
+        <a class="btn btn-sm btn-primary recover-origin">恢复原始数据</a>
 HTML;
     }
 }

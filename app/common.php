@@ -1,7 +1,6 @@
 <?php
 
-use App\Http\Helpers\ApiException;
-use App\Model\Project;
+
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\MessageBag;
 use \Illuminate\Support\Str;
@@ -43,8 +42,8 @@ function conf($keys, $default = null)
         $isSingle = true;
     }
 
-    Cache::delete('configs');
-    $configs = Cache::rememberForever('configs', function () {
+
+    $configs = Cache::remember('configs', 300, function () {
 
         $configs             = \App\Model\Config::get();
         $configsWithKey      = $configs->mapWithKeys(function ($item) {
@@ -121,7 +120,7 @@ function new_api_exception($error, $code = 400)
 {
 
     db_rollBack(0);
-    Log::info($error);
+    common_log($error);
     throw new \App\ApiException($error, $code);
 }
 
@@ -267,10 +266,22 @@ function get_time_begin_end($scope = "d", $type = 0, $time = null)
  */
 function system_time($type = 0)
 {
+    $nowTime    = time();
+    $offsetDay  = conf('time_offset_day');
+    $offsetHour = conf('time_offset_hour');
+    $offsetDay  = $offsetDay ? $offsetDay : 0;
+    $offsetHour = $offsetHour ? $offsetHour : 0;
+
+    $offsetDayTime  = $offsetDay * 86400;
+    $offsetHourTime = $offsetHour * 3600;
+    $nowTime        = bcadd($nowTime, $offsetDayTime);
+
+    $nowTime = bcadd($nowTime, $offsetHourTime);
+
     if ($type === 0) {
-        return time();
+        return $nowTime;
     }
-    return format_time_to_string();
+    return format_time_to_string($nowTime);
 }
 
 
@@ -385,7 +396,7 @@ function is_win(): bool
 function curl_post(string $url, array $data = null, $isJSON = false)
 {
     $timeBegin = system_time(1);
-    Log::info("开始执行时间{$timeBegin}");
+    common_log("开始执行时间{$timeBegin}");
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_POST, 1);
 
@@ -407,15 +418,12 @@ function curl_post(string $url, array $data = null, $isJSON = false)
     $result = curl_exec($ch);
     curl_close($ch);
 
-    if (env('APP_DEBUG')) {
-        Log::info($result);
-    }
     $jsonDecoding = json_decode($result, true);
 
     $content = is_null($jsonDecoding) ? $result : $jsonDecoding;
 
     $timeEnd = system_time(1);
-    Log::info("结束执行时间{$timeEnd}");
+    common_log("结束执行时间{$timeEnd}");
     return $content;
 }
 
@@ -448,7 +456,7 @@ function collect_sign(array $args, string $key, string $sign = null)
     $args['key'] = $key;
     ksort($args);
     $str = http_build_query($args, '', '&');
-    Log::info("通知加密,加密的参数为: $str");
+    common_log("通知加密,加密的参数为: $str");
     $newSign = hash("sha256", $str);
 
     if (is_null($sign)) {
@@ -478,6 +486,34 @@ function radio_transform(string $radio)
 
 }
 
+
+function full_error_msg(Exception $e)
+{
+    return $errorMsg = $e->getMessage() . "  \r\n file:" . $e->getFile() . "\r\n   line:" . $e->getLine() . "\r\n   trace:" . $e->getTraceAsString();
+
+
+}
+
+
+function common_log(string $message, $context = [], $channel = '')
+{
+    if (!is_array($context)) {
+        $context = array($context);
+    }
+    $message = PHP_EOL . $message;
+    $message .= PHP_EOL;
+    if ($channel) {
+        Log::channel($channel)->info($message, $context);
+    } else {
+        Log::info($message, $context);
+    }
+}
+
+function communicate_log(string $message, $context = [])
+{
+    common_log($message, $context, 'communicate');
+
+}
 
 
 

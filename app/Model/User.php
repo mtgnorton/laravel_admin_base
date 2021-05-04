@@ -77,7 +77,7 @@ class User extends Authenticatable implements JWTSubject
      */
     public function parents()
     {
-        return $this->belongsToMany(User::class, 'user_recommend_relation', 'user_id', 'parent_id')->withPivot('layer')->orderBy('layer', 'asc');
+        return $this->belongsToMany(User::class, 'user_recommend_relation', 'user_id', 'parent_id')->withPivot('layer')->orderBy('layer', 'asc')->withTimestamps();
     }
 
     /**

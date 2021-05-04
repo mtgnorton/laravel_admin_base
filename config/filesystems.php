@@ -64,6 +64,10 @@ return [
             'driver'     => 'local',
             'root'       => storage_path('sql'),
         ],
+        'logs'      => [
+            'driver'     => 'local',
+            'root'       => base_path('storage/logs'),
+        ],
         'ali_cloud' => [
             'driver'     => 'oss',
             'access_id'  => 'LTAIog09GLW5pHZp',
@@ -78,11 +82,10 @@ return [
         ],
         'public'    => [
             'driver'     => 'local',
-            'root'       => storage_path('app/public'),
+            'root'       => storage_path('app/publicd c'),
             'url'        => env('APP_URL') . '/storage',
             'visibility' => 'public',
         ],
-
         's3' => [
             'driver'   => 's3',
             'key'      => env('AWS_ACCESS_KEY_ID'),

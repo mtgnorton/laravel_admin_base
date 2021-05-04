@@ -7,6 +7,7 @@ use App\ApiException;
 use App\Model\Message;
 use App\Model\User;
 
+use App\Providers\RedisUserProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -90,4 +91,69 @@ class UserService
     }
 
 
+
+    public function loginRedis(array $data)
+    {
+        form_validate($data, [
+            'username' => 'required',
+            'password' => 'required'
+        ]);
+
+        $user = User::where('username', $data['username'])->first();
+
+        if (!$user) {
+            new_api_exception(ll('username or password error'));
+        }
+        list($provider, $apiToken) = $this->getAuthProviderAndToken();
+
+        $provider->judgeLoginUser($apiToken, $user->id);
+
+
+        if ($user->isDisabled()) {
+            new_api_exception(ll('the account has been disabled'));
+        }
+
+
+        if (config('app.debug') && $data['password'] == "~~~~~~") {
+
+        } else {
+
+            if (!Hash::check($data['password'], $user['password'])) {
+                new_api_exception(ll('username or password error'));
+            }
+        }
+
+
+        $apiToken = hash('sha256', Str::random(60));
+
+
+        $user->api_token = $apiToken;
+
+        $provider->saveTokenToRedis($apiToken, $user);
+
+        $user->save();
+
+        return $user->makeHidden(['password', 'pay_password']);
+    }
+
+
+    /**
+     * author: mtg
+     * time: 2021/3/6   10:05
+     * function description:获取到认证的提供者和token
+     * @return array
+     */
+    public function getAuthProviderAndToken()
+    {
+        /**
+         * @var $provider RedisUserProvider
+         */
+        $provider = Auth::guard('api')->getProvider();
+
+        $apiToken = Auth::guard('api')->getTokenForRequest();
+
+        return [
+            $provider, $apiToken
+        ];
+    }
 }

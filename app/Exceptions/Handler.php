@@ -40,6 +40,9 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
+        if ($exception instanceof ApiException) {
+            return;
+        }
         parent::report($exception);
     }
 

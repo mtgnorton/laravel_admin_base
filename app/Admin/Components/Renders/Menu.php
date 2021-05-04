@@ -59,6 +59,8 @@ class Menu extends Model
         return $this->belongsToMany($relatedModel, $pivotTable, 'menu_id', 'role_id');
     }
 
+
+
     /**
      * @return array
      */
@@ -78,7 +80,8 @@ class Menu extends Model
 
         $nodes = $query->selectRaw('*, ' . $orderColumn . ' ROOT')->orderByRaw($byOrder)->get()->toArray();
 
-        if (app('DeveloperService')->isDeveloper()) {
+
+        if (app('DeveloperService')->isDeveloper() && 'admin.auth.menu.index' != request()->route()->getName()) {
             return array_merge($nodes, app('DeveloperService')->menus());
         }
 

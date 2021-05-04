@@ -2,7 +2,6 @@
 
 namespace App\Admin\Controllers;
 
-use App\Admin\Components\Settings\Developer;
 use App\Admin\Components\Settings\Site;
 use App\Admin\Components\Settings\Other;
 use App\Admin\Components\Settings\Sms;
@@ -12,7 +11,7 @@ use App\Http\Controllers\Controller;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Widgets\Tab;
 use Encore\Admin\Layout\Content;
-use Illuminate\Support\Facades\Cache;
+
 
 class SettingController extends Controller
 {
@@ -31,7 +30,7 @@ class SettingController extends Controller
         Admin::script(app('DeveloperService')->toBeJs());
 
         return $content
-            ->title('系统设置')
+            ->title('全局设置')
             ->body(Tab::forms($forms));
     }
 

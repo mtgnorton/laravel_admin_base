@@ -51,8 +51,7 @@ class BackupController extends AdminController
 
         $grid->tools(function (Grid\Tools $tools) {
             $tools->append(new BackupRun());
-            $tools->append(new Clear());
-            $tools->append(new RecoverOrigin());
+
             $tools->disableBatchActions();
         });
         $grid->column('id', ll('Id'));

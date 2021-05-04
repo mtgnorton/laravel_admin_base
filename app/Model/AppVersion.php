@@ -58,14 +58,18 @@ class AppVersion extends Model
      */
     static public function isMaxVersion(string $clientType, string $clientVersion, $exceptID = 0): bool
     {
-        return static
+        $versions = static
             ::where('client_type', $clientType)
             ->whereNotIn('id', [$exceptID])
-            ->pluck('version')->every(function ($value) use ($clientVersion) {
+            ->pluck('version');
+        if ($versions->isEmpty()) {
+            return true;
+        }
+        return $versions->every(function ($value) use ($clientVersion) {
+            //数据库中每一个版本都小于当前版本,则说明当前版本为最大版本
+            return version_compare($value, $clientVersion, '<');
 
-                return version_compare($value, $clientVersion, '<');
-
-            });
+        });
     }
 
 

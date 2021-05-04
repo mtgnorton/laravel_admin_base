@@ -16,6 +16,7 @@ use Encore\Admin\Auth\Database\Menu;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
@@ -23,7 +24,6 @@ use Illuminate\Validation\Rule;
 
 class DeveloperService
 {
-
     /**
      * author: mtg
      * time: 2021/4/13   11:22
@@ -32,15 +32,15 @@ class DeveloperService
      */
     public function isDeveloper()
     {
-        return !!Cache::get('open_developer');
+        return !!Session::get('open_developer');
     }
 
 
     public function toBeDeveloper()
     {
-        Cache::set('open_developer', 1, 15 * 60);
-        return true;
+        Session::put('open_developer', 1);
     }
+
 
     /**
      * author: mtg
@@ -78,6 +78,19 @@ class DeveloperService
                 'roles'      => []
             ],
             [
+                'id'         => 1006,
+                'parent_id'  => 1000,
+                'order'      => 1006,
+                'title'      => '日志管理',
+                'icon'       => 'fa-database',
+                'uri'        => '/media',
+                'permission' => null,
+                'created_at' => '2021-03-25 09:18:24',
+                'updated_at' => '2021-03-25 09:18:24',
+                'ROOT'       => 1006,
+                'roles'      => []
+            ],
+            [
                 'id'         => 1002,
                 'parent_id'  => 1000,
                 'order'      => 1002,
@@ -88,6 +101,19 @@ class DeveloperService
                 'created_at' => '2021-03-25 09:18:24',
                 'updated_at' => '2021-03-25 09:18:24',
                 'ROOT'       => 1002,
+                'roles'      => []
+            ],
+            [
+                'id'         => 1003,
+                'parent_id'  => 1000,
+                'order'      => 1003,
+                'title'      => '开发者命令',
+                'icon'       => 'fa-database',
+                'uri'        => '/developer_commands',
+                'permission' => null,
+                'created_at' => '2021-03-25 09:18:24',
+                'updated_at' => '2021-03-25 09:18:24',
+                'ROOT'       => 1003,
                 'roles'      => []
             ]
         ];

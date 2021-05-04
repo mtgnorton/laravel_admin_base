@@ -2,11 +2,11 @@
 
 namespace App\Admin\Components\Actions;
 
-use Encore\Admin\Actions\Action;
+use Encore\Admin\Actions\RowAction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class Clear extends Action
+class Clear extends RowAction
 {
     protected $selector = '.clear';
 
@@ -32,7 +32,7 @@ class Clear extends Action
         $this->confirm('确定清空？');
     }
 
-    public function html()
+    public function display($value)
     {
         return <<<HTML
         <a class="btn btn-sm btn-warning clear">清空业务数据</a>

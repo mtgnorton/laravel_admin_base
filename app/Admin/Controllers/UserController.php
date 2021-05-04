@@ -8,7 +8,9 @@ use App\Model\User;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
+use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Encore\Admin\Widgets\Callout;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends AdminController
@@ -23,6 +25,24 @@ class UserController extends AdminController
     public function __construct()
     {
         $this->title = ll('User list');
+    }
+
+    /**
+     * Index interface.
+     *
+     * @param Content $content
+     *
+     * @return Content
+     */
+    public function index(Content $content)
+    {
+        return $content
+            ->title($this->title())
+            ->row(new Callout("
+          testtest
+
+            ", "注意事项", 'info'))
+            ->body($this->grid());
     }
 
     /**

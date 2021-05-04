@@ -403,6 +403,11 @@ return [
 
             // Set to `false` if you want to disable this extension
             'enable' => true,
-        ]
+        ],
+        'media-manager' => [
+
+            // Select a local disk that you configured in `config/filesystem.php`
+            'disk' => 'logs'
+        ],
     ],
 ];

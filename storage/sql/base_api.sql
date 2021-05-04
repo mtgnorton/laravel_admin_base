@@ -83,7 +83,24 @@ CREATE TABLE `adverts`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic comment =  '广告';
 
 
+DROP TABLE IF EXISTS `certifications`;
+CREATE TABLE `certifications`  (
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '用户id',
+  `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '用户名',
+  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '姓名',
+  `id_card` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '身份证',
+  `card_image_front` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '身份证正面',
+  `card_image_behind` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '身份证反面',
+  `type` tinyint(1) NOT NULL DEFAULT 1 COMMENT '认证类型 1 kyc1 ,2 kyc2',
+  `status` tinyint(1) NOT NULL DEFAULT 0 COMMENT '状态 0未审核 1已审核 -1已拒绝',
+  `remark` tinyint(1) NOT NULL DEFAULT 0 COMMENT '备注,审核失败原因',
+  `created_at` timestamp(0) NULL DEFAULT NULL,
+  `updated_at` timestamp(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '实名认证' ROW_FORMAT = Dynamic;
 
+create index user_idx on certifications(user_id);
 
 
 DROP TABLE IF EXISTS `announcements`;
