@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 Route::group(
     [
         'prefix'     => 'v1',
-        'middleware' => ['cors']
+        'middleware' => ['cors', 'close.site',]
     ],
     function () {
         Route::any("/user_register", "UserController@register");
@@ -31,7 +31,7 @@ Route::group(
         Route::post('misc_uploads', 'MiscController@uploads'); //通用上传接口
 
 
-        Route::middleware('api.refresh')->group(function () {
+        Route::middleware(['api.refresh', 'judge.user.disabled'])->group(function () {
 
             //杂项接口
             Route::get('misc_advert_list', 'MiscController@advertList');//广告列表

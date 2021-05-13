@@ -19,6 +19,11 @@ class Site extends Base
     {
 
         $this->text('site_name', ll("Site name"))->rules('required');
+        $this->switch('is_close_site', '站点状态')->states([
+            'on'  => ['value' => 'on', 'text' => '关闭', 'color' => 'danger'],
+            'off' => ['value' => 'off', 'text' => '开启', 'color' => 'success']
+        ]);
+        $this->text('close_site_reason', '关站原因');
     }
 
 

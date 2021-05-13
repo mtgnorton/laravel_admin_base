@@ -28,6 +28,8 @@ class Developer extends Base
             return system_time(1);
         });
 
+        $this->textarea('close_can_visit_users', '关站可以访问的用户名列表')->help('多个以逗号隔开');
+
         $this->text('h5_register_link', ll('网页注册链接'))->default('/register_h5#/?invite_code={username}&download_ios_link={download_ios_link}&download_android_link={download_android_link}')->help('{}中的内容不可修改和删除');
     }
 
