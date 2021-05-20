@@ -16,11 +16,11 @@ use Illuminate\Http\Request;
 Route::group(
     [
         'prefix'     => 'v1',
-        'middleware' => ['cors', 'close.site',]
+        'middleware' => ['cors', 'close.site', 'prevent.repeat', 'front.operate.log']
     ],
     function () {
         Route::any("/user_register", "UserController@register");
-        Route::any("/user_login", "UserController@login");
+        Route::any("/user_login", "UserController@login")->middleware('judge.user.disabled')->name('user.login');
 
         Route::post("/user_logout", "UserController@logout");
 

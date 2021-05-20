@@ -24,6 +24,12 @@ class Site extends Base
             'off' => ['value' => 'off', 'text' => '开启', 'color' => 'success']
         ]);
         $this->text('close_site_reason', '关站原因');
+
+        $this->radio('open_front_log', '前台日志')->options([
+            1 => '开启',
+            0 => '关闭',
+        ]);
+
     }
 
 

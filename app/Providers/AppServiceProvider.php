@@ -9,6 +9,7 @@ use Illuminate\Log\Logger;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 use Monolog\Handler\RotatingFileHandler;
 
 
@@ -56,11 +57,17 @@ class AppServiceProvider extends ServiceProvider
 
         if (config('app.debug') == true) {
             DB::listen(function ($query) {
-                $sql = str_replace("?", "'%s'", $query->sql);
-                $log = "[{$query->time}ms] " . vsprintf($sql, $query->bindings);
-                file_put_contents(storage_path('logs/sql.log'), $log . PHP_EOL, FILE_APPEND);
+                $sql       = str_replace("?", "'%s'", $query->sql);
+                $processID = getmypid();
+                $log       = "[进程:$processID][{$query->time}ms] " . vsprintf($sql, $query->bindings);
+                if (Str::contains($log, 'admin_permissions') || Str::contains($log, 'admin_roles') || Str::contains($log, 'admin_operation_log') || Str::contains($log, 'admin_users')) {
+                    return;
+                }
+
+                sql_log($log);
             });
         }
+
 
     }
 

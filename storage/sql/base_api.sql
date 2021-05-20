@@ -34,6 +34,7 @@ CREATE TABLE `posts`  (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` int(11) not null default 0 comment '用户id',
   `cover_path` varchar (255) null comment '封面图',
+  `type` varchar (20) not null default '' comment '博客类型',
   `title`  varchar (255) null comment '标题',
   `content` text  null comment '内容',
   `created_at` timestamp(0) NULL DEFAULT NULL,
@@ -211,3 +212,21 @@ INSERT INTO `configs` VALUES (22, 'storage', 'bucket', 'shangtukeji', '2021-03-1
 INSERT INTO `configs` VALUES (23, 'storage', 'endpoint', 'oss-cn-hongkong.aliyuncs.com', '2021-03-15 11:07:21', '2021-03-15 11:07:21', NULL);
 INSERT INTO `configs` VALUES (24, 'smstemplate', 'auth_code_content', '【{$siteName}】验证码：{$code}，{$expireTime}分钟内有效,切勿告知他人！', '2021-04-10 11:06:32', '2021-04-10 11:06:32', NULL);
 INSERT INTO `configs` VALUES (25, 'smstemplate', 'template_hello_word', '【{$siteName}】 hello world', '2021-04-10 11:06:32', '2021-04-10 11:06:32', NULL);
+
+
+DROP TABLE IF EXISTS `front_operation_log`;
+CREATE TABLE `front_operation_log`  (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL default 0,
+  `username` varchar (255) NOT NULL default  '',
+  `path` varchar(255) CHARACTER SET  utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `method` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `input` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp(0) NULL DEFAULT NULL,
+  `updated_at` timestamp(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `front_operation_log_user_id_index`(`user_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 5531 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+
+SET FOREIGN_KEY_CHECKS = 1;

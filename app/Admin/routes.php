@@ -38,4 +38,5 @@ Route::group([
 
     $router->post('open_developer', 'SettingController@openDeveloper');
     $router->any('developer_settings', 'DeveloperSettingController@index');
+    $router->resource('logs', 'LogController');
 });

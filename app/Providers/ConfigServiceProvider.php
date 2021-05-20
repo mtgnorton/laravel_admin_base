@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Model\Config;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 
@@ -21,8 +22,8 @@ class ConfigServiceProvider extends ServiceProvider
                 "database.redis.client" => 'predis'
             ]);
         }
-
     }
+
 
     /**
      * Bootstrap services.
@@ -32,13 +33,22 @@ class ConfigServiceProvider extends ServiceProvider
     public function boot()
     {
 
+        $configs = conf(['storage_type', 'access_id', 'access_key', 'bucket', 'endpoint', 'site_name']);
+
         config([
-            'filesystems.default'                    => conf('storage_type', 'storage'),
-            'admin.upload.disk'                      => conf('storage_type', 'storage'),
-            'filesystems.disks.ali_cloud.access_id'  => conf('access_id', 'storage'),
-            'filesystems.disks.ali_cloud.access_key' => conf('access_key', 'storage'),
-            'filesystems.disks.ali_cloud.bucket'     => conf('bucket', 'storage'),
-            'filesystems.disks.ali_cloud.endpoint'   => conf('endpoint', 'storage'),
+            'filesystems.default'                    => data_get($configs, 'storage_type'),
+            'admin.upload.disk'                      => data_get($configs, 'storage_type'),
+            'filesystems.disks.ali_cloud.access_id'  => data_get($configs, 'access_id'),
+            'filesystems.disks.ali_cloud.access_key' => data_get($configs, 'access_key'),
+            'filesystems.disks.ali_cloud.bucket'     => data_get($configs, 'bucket'),
+            'filesystems.disks.ali_cloud.endpoint'   => data_get($configs, 'endpoint'),
+
+            'admin.title'     => data_get($configs, 'site_name'),
+            'admin.name'      => data_get($configs, 'site_name'),
+            'admin.logo'      => data_get($configs, 'site_name'),
+            'admin.logo-mini' => data_get($configs, 'site_name')
         ]);
+
+
     }
 }

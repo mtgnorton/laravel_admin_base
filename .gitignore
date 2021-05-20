@@ -12,3 +12,5 @@ npm-debug.log
 yarn-error.log
 .idea
 _ide_helper_models.php
+storage/framework/laravel-excel
+storage/app/public/images

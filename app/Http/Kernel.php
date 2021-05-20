@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\CloseSite;
+use App\Http\Middleware\FrontOperationLog;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -67,6 +68,8 @@ class Kernel extends HttpKernel
         'prevent.repeat'      => \App\Http\Middleware\PreventRepeat::class,
         'close.site'          => CloseSite::class,
         'judge.user.disabled' => \App\Http\Middleware\JudgeUserDisabled::class,
+        'front.operate.log'    => FrontOperationLog::class,
+
     ];
 
     /**

@@ -489,8 +489,9 @@ function radio_transform(string $radio)
 
 function full_error_msg(Exception $e)
 {
-    return $errorMsg = $e->getMessage() . "  \r\n file:" . $e->getFile() . "\r\n   line:" . $e->getLine() . "\r\n   trace:" . $e->getTraceAsString();
-
+    $trace = $e->getTraceAsString();
+    $trace = str_replace("#", "<br/>#", $trace);
+    return $errorMsg = $e->getMessage() . "  <br/> file:" . $e->getFile() . "<br/>   line:" . $e->getLine() . "<br/>   trace:" . $trace;
 
 }
 
@@ -509,9 +510,9 @@ function common_log(string $message, $context = [], $channel = '')
     }
 }
 
-function communicate_log(string $message, $context = [])
+function sql_log(string $message, $context = [])
 {
-    common_log($message, $context, 'communicate');
+    common_log($message, $context, 'sql');
 
 }
 

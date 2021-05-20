@@ -29,7 +29,7 @@ Grid::init(function (Grid $grid) {
     $grid->model()->orderBy('id', 'desc');
 
     $grid->actions(function (Grid\Displayers\Actions $actions) {
-        $actions->disableView();
+//        $actions->disableView();
     });
     $grid->filter(function (Grid\Filter $filter) {
         $filter->expand();
