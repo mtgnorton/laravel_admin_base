@@ -37,6 +37,7 @@ CREATE TABLE `posts`  (
   `type` varchar (20) not null default '' comment '博客类型',
   `title`  varchar (255) null comment '标题',
   `content` text  null comment '内容',
+  `author` varchar (50) not null default '';
   `created_at` timestamp(0) NULL DEFAULT NULL,
   `updated_at` timestamp(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE

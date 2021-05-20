@@ -29,7 +29,13 @@ class DeveloperCommand extends Model
                 'id'        => 2,
                 'operation' => 'App\Admin\Components\Actions\Clear',
                 'desc'      => '清空业务数据',
-            ]
+            ],
+            [
+                'id'        => 3,
+                'operation' => 'App\Admin\Components\Actions\AlterField',
+                'desc'      => '当数据库有新增字段时,将z_alter修改写入数据库',
+            ],
+
         ];
 
         $collection = static::hydrate($data);
