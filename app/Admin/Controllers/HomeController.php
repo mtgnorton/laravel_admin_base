@@ -15,6 +15,8 @@ class HomeController extends Controller
 {
     public function index(Content $content)
     {
+
+
 //        app('SmsService')->sendGeneral(18063164161, Message::Type['HELLO_WORLD']);
         return $content
             ->title('首页')

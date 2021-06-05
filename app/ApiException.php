@@ -7,7 +7,7 @@ class ApiException extends \Exception
 {
 
 
-    public function __construct($message = '', $code = 202)
+    public function __construct($message = '', $code = 400)
     {
 
         if (is_array($message)) {

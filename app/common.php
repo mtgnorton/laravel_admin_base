@@ -364,10 +364,11 @@ function show_disabled_edit_and_delete(Encore\Admin\Show $show): \Encore\Admin\S
  */
 function form_error(string $message)
 {
-    $argsNumber = count(request()->all());
-    if ($argsNumber == 3) {
+
+    if (is_admin_ajax()) {
         new_api_exception($message);
     }
+
     $error = new MessageBag([
         'title'   => 'error',
         'message' => $message,
@@ -375,6 +376,13 @@ function form_error(string $message)
     return back()->with(compact('error'))->withInput();
 }
 
+
+function is_admin_ajax()
+{
+
+    return request()->ajax() && request()->header('X-PJAX') != 'true';
+
+}
 
 function human_file_size($size, $unit = ""): string
 {

@@ -2,6 +2,8 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Components\Actions\BackupRun;
+use App\Admin\Components\Actions\TestMultiFile;
 use App\Define\PostDefine;
 use App\Model\Post;
 use App\Model\User;
@@ -56,8 +58,12 @@ class PostController extends AdminController
                 return $item;
             });
         });
+        $grid->tools(function (Grid\Tools $tools) {
+            $tools->append(new TestMultiFile());
+
+        });
         $grid->column('id', ll('Id'));
-        $grid->column('title', ll('Title'))->bold();
+        $grid->column('title', ll('Title'));
         $grid->column('user_id', ll('User id'));
         $grid->column('cover_path', ll('Cover'))->gallery();
 
@@ -68,6 +74,7 @@ class PostController extends AdminController
 <img src="{$imagePath}" style="width:100%;height:100%"  class="img">
 EOT;
         }, "fa-arrows-alt", "1200px", "800px");
+
 
         $grid->column('comments_amount', ll('Comments amount'));
         $grid->column('content', ll('Content'))->display(function ($value, $column) {
@@ -87,6 +94,8 @@ EOT;
             PostDefine::TYPE['SCIENCE']    => 'info',
             PostDefine::TYPE['LITERATURE'] => 'warning',
         ]);
+
+
         $grid->column('created_at', ll('Created at'));
         $grid->column('updated_at', ll('Updated at'));
 
@@ -119,9 +128,15 @@ EOT;
      */
     protected function form()
     {
+
         $form = new Form(new Post());
 
         $form->number('user_id', ll('User id'));
+
+        $form->file("html", ll('html'))->options([
+            'allowedPreviewTypes' => ['image', 'text', 'video', 'audio', 'flash', 'object']
+        ]);
+
 
         $form->display('username', ll('Username'))->with(function ($value, $column) {
 
@@ -142,10 +157,13 @@ EOT;
         $form->text('title', ll('Title'));
 
         $form->radio('type', ll('Type'))->options(PostDefine::typeText());
+
         /*文本编辑器+上传图片*/
         $form->fullEditor('content', ll('Content'));
 
 
         return $form;
     }
+
+
 }

@@ -63,6 +63,7 @@ return [
     "Recover success"                         => "恢复成功",
     "Confirm recover"                         => "确定恢复?",
     "Download"                                => "下载",
+    "science"                                => "科学",
 
 
     /////////////////////////////////////////广告分类广告管理'

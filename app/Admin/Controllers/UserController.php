@@ -12,6 +12,8 @@ use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 use Encore\Admin\Widgets\Callout;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\MessageBag;
+use mysql_xdevapi\Exception;
 
 class UserController extends AdminController
 {
@@ -53,6 +55,7 @@ class UserController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new User());
+
 
         $grid->column('id', ll('Id'));
         $grid->column('username', ll('Username'));
@@ -112,6 +115,9 @@ class UserController extends AdminController
         $form->ignore(['password_confirmation', 'pay_password_confirmation']);
 
         $form->saving(function (Form $form) {
+
+
+            new_api_exception(11);
             if ($form->password && $form->model()->password != $form->password) {
                 $form->password = Hash::make($form->password);
             }
@@ -122,10 +128,11 @@ class UserController extends AdminController
 
         });
 
+
         $form->saved(function (Form $form) {
             $user = $form->model();
 
-            if ($form->isCreating()){
+            if ($form->isCreating()) {
                 if ($form->parent_id) {
                     $parent = User::find($form->parent_id);
                     if (!$parent) {
