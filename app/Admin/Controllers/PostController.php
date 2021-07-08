@@ -52,6 +52,29 @@ class PostController extends AdminController
     public function grid()
     {
         $grid = new Grid(new Post());
+        $grid->filter(function ($filter) {
+
+            /**
+             * @var $filter Grid\Filter
+             */
+
+            $filter->column(1 / 2, function ($filter) {
+                /**
+                 * @var $filter Grid\Filter
+                 */
+                $filter->like('title', ll('标题'));
+                $filter->like('user_id', ll('用户'))->select(User::pluck('username', 'id'));
+
+            });
+            $filter->column(1 / 2, function ($filter) {
+                /**
+                 * @var $filter Grid\Filter
+                 */
+                $filter->between('created_at', ll('创建时间'))->datetime();
+
+            });
+        });
+
         $grid->model()->collection(function (Collection $collection) {
             return $collection->map(function ($item) {
                 $item->comments_amount = mt_rand(0, 100);

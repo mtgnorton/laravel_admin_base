@@ -58,9 +58,16 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
 
-        $prefix = $request->route()->getPrefix();
+        $router = $request->route();
 
-        $isBackend = $prefix == 'admin';
+        $isBackend = true;
+
+        if ($router) {
+            $prefix = $router->getPrefix();
+
+            $isBackend = $prefix == 'admin';
+
+        }
 
         // 将方法拦截到自己的ExceptionReport
         if ($exception instanceof ApiException) {

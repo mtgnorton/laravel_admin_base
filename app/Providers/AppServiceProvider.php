@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Service\CrawlService;
 use App\Service\DeveloperService;
 use App\Service\Notification\HuanHuiService;
 use App\Service\UserService;
@@ -27,6 +28,9 @@ class AppServiceProvider extends ServiceProvider
         });
         $this->app->singleton('DeveloperService', function ($app) {
             return new DeveloperService();
+        });
+        $this->app->singleton('CrawlService', function ($app) {
+            return new CrawlService();
         });
         $this->app->singleton('SmsService', function ($app) {
 

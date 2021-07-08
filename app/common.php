@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Service\CrawlService;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\MessageBag;
 use \Illuminate\Support\Str;
@@ -97,17 +98,6 @@ function ll($key, $replace = [], $locale = null)
 }
 
 
-/**
- * author: mtg
- * time: 2020/12/9   16:25
- * function description: 表单提交是否是创建
- * @param \Encore\Admin\Form $form
- * @return bool
- */
-function form_is_create(\Encore\Admin\Form $form): bool
-{
-    return !$form->model()->id;
-}
 
 
 /**
@@ -395,45 +385,13 @@ function human_file_size($size, $unit = ""): string
     return number_format($size) . " bytes";
 }
 
+
 function is_win(): bool
 {
     return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
 }
 
 
-function curl_post(string $url, array $data = null, $isJSON = false)
-{
-    $timeBegin = system_time(1);
-    common_log("开始执行时间{$timeBegin}");
-    $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_POST, 1);
-
-    if ($isJSON) {
-        $data = json_encode($data);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
-    }
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);//将 curl_exec()获取的信息以文件流的形式返回，而不是直接输出。
-
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);//在使用CURLOPT_FOLLOWLOCATION产生的header中的多个locations中持续追加用户名和密码信息，即使域名已发生改变。
-    curl_setopt($ch, CURLOPT_AUTOREFERER, 1);//当根据Location:重定向时，自动设置header中的Referer:信息。
-    curl_setopt($ch, CURLOPT_MAXREDIRS, 4); //指定最多的HTTP重定向的数量，这个选项是和CURLOPT_FOLLOWLOCATION一起使用的。
-
-    curl_setopt($ch, CURLOPT_ENCODING, ""); //HTTP请求头中"Accept-Encoding: "的值。支持的编码有"identity"，"deflate"和"gzip"。如果为空字符串""，请求头会发送所有支持的编码类型。
-    curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 5.1; zh-CN) AppleWebKit/535.12 (KHTML, like Gecko) Chrome/22.0.1229.79 Safari/535.12");
-    curl_setopt($ch, CURLOPT_TIMEOUT, 10); //设置cURL允许执行的最长秒数。
-
-    $result = curl_exec($ch);
-    curl_close($ch);
-
-    $jsonDecoding = json_decode($result, true);
-
-    $content = is_null($jsonDecoding) ? $result : $jsonDecoding;
-
-    $timeEnd = system_time(1);
-    common_log("结束执行时间{$timeEnd}");
-    return $content;
-}
 
 
 function curl_get(string $url, $isReturnJSON = true)
@@ -495,6 +453,13 @@ function radio_transform(string $radio)
 }
 
 
+/**
+ * author: mtg
+ * time: 2021/6/25   11:34
+ * function description: 获取异常完整的错误信息
+ * @param Exception $e
+ * @return string
+ */
 function full_error_msg(Exception $e)
 {
     $trace = $e->getTraceAsString();
@@ -504,6 +469,14 @@ function full_error_msg(Exception $e)
 }
 
 
+/**
+ * author: mtg
+ * time: 2021/6/25   11:34
+ * function description:通用日志
+ * @param string $message
+ * @param array $context
+ * @param string $channel
+ */
 function common_log(string $message, $context = [], $channel = '')
 {
     if (!is_array($context)) {
@@ -525,6 +498,117 @@ function sql_log(string $message, $context = [])
 }
 
 
+function gather_log(string $message, $context = [])
+{
+    common_log($message, $context, 'sql');
+
+}
 
 
+/**
+ * author: mtg
+ * time: 2021/6/23   16:24
+ * function description:动态修改env文件
+ * @param array $data
+ */
+function modify_env(array $data)
+{
+    $envPath = base_path() . DIRECTORY_SEPARATOR . '.env';
 
+    $contentArray = collect(file($envPath, FILE_IGNORE_NEW_LINES));
+
+    $contentArray->transform(function ($item) use ($data) {
+        foreach ($data as $key => $value) {
+            if (str_contains($item, $key)) {
+                return $key . '=' . $value;
+            }
+        }
+
+        return $item;
+    });
+
+    $content = implode($contentArray->toArray(), "\n");
+
+    \File::put($envPath, $content);
+}
+
+
+/**
+ * author: mtg
+ * time: 2021/6/25   11:33
+ * function description: 强制输出,首先修改nginx配置文件,修改或添加gzip off;proxy_buffering off;  fastcgi_keep_conn on;
+ * @param mixed ...$data
+ */
+
+function force_response(...$data)
+{
+
+    echo str_repeat(" ", 40960); //确保足够的字符，立即输出，Linux服务器中不需要这句
+
+    foreach ($data as $item) {
+        echo($item);
+    }
+    echo "<br>";
+    ob_flush();
+    flush();
+}
+
+
+/**
+ * author: mtg
+ * time: 2021/6/30   11:49
+ * function description:获取远程的最新系统版本
+ */
+function get_remote_latest_version()
+{
+    $info = get_remote_latest_version_info();
+    return data_get($info, 'version');
+}
+
+/**
+ * author: mtg
+ * time: 2021/7/3   16:16
+ * function description: 获取远程的最新系统版本信息
+ */
+function get_remote_latest_version_info()
+{
+    $info = Cache::get('system_latest_version_info');
+
+    if (!$info) {
+        $url = trim(config('seo.official_domain'), '/') . '/index/version/getVersion';
+
+
+        $data = CrawlService::get($url);
+        $data = json_decode($data, true);
+
+        $info = data_get($data, 'data');
+
+        Cache::set('system_latest_version_info', $info, 3600);
+    }
+
+    return $info;
+}
+
+/**
+ * author: mtg
+ * time: 2021/7/5   10:01
+ * function description:
+ * @return mixed
+ */
+function get_remote_all_version_info()
+{
+    $info = Cache::get('system_history_version_info');
+    if (!$info) {
+        $url = trim(config('seo.official_domain'), '/') . '/index/version/getHistoryVersion';
+
+
+        $data = CrawlService::get($url);
+        $data = json_decode($data, true);
+
+        $info = data_get($data, 'data');
+
+        Cache::set('system_history_version_info', $info, 3600);
+    }
+
+    return $info;
+}

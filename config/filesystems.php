@@ -61,12 +61,16 @@ return [
             'visibility' => 'public',
         ],
         'sql'       => [ //数据库文件
-            'driver'     => 'local',
-            'root'       => storage_path('sql'),
+            'driver' => 'local',
+            'root'   => storage_path('sql'),
+        ],
+        'gather'    => [ //数据库文件
+            'driver' => 'local',
+            'root'   => storage_path('gather'),
         ],
         'logs'      => [
-            'driver'     => 'local',
-            'root'       => base_path('storage/logs'),
+            'driver' => 'local',
+            'root'   => base_path('storage/logs'),
         ],
         'ali_cloud' => [
             'driver'     => 'oss',
@@ -86,7 +90,7 @@ return [
             'url'        => env('APP_URL') . '/storage',
             'visibility' => 'public',
         ],
-        's3' => [
+        's3'        => [
             'driver'   => 's3',
             'key'      => env('AWS_ACCESS_KEY_ID'),
             'secret'   => env('AWS_SECRET_ACCESS_KEY'),
