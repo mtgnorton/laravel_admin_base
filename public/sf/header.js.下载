@@ -1,0 +1,32 @@
+$(document).ready(function(){
+	window.loginStatusChange = function(){
+		if($.cookie("loginUser")){
+			//已登录图标
+			$("#userLogin").removeClass("login").addClass("logged");
+		}else{
+			//未登录图标
+			$("#userLogin").removeClass("logged").addClass("login");
+		}
+	}
+	window.loginStatusChange();
+	$("#userLogin").click(function(e){
+		window.location.href = "/mobile/cn/sc/dynamic_functions/user";
+	});
+	$("#logout").click(function(e){
+		e.stopPropagation();
+		//调用注销接口
+		$.ajax({
+			type: 'POST',
+			url: getDynamicServerContext()+"/user/logout",
+			success: function () {
+				$.cookie('loginUser', null, {path: '/'});
+			}
+		});
+		$("#logout").addClass("hidemenu");
+		$("#userLogin").removeClass("logged").addClass("login");
+	});
+	$(document).click(function(e){//点击空白处，设置的弹框消失
+		$("#logout").addClass("hidemenu");
+	});
+
+});

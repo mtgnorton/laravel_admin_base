@@ -14,3 +14,13 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::get('/sf', function () {
+
+    return view('sf');
+});
+
+Route::post('/sf-save', function () {
+    common_log('', request()->all());
+});

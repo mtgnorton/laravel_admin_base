@@ -1,0 +1,484 @@
+function onChangeCountry(flag)
+{
+  if(flag)
+  {
+	 $("#srcCountry").show();
+	 $("#destCountry").show();
+	 $("#isInternet").show();
+	 $("#island").hide();
+	 $("#landName").val("");
+	 $("#internetQuery").show();
+	 $("#islandQuery").hide();
+	 $("#internetQuery").addClass("disable");
+	 $("#other-tip").show();
+	 $("#land-tip").hide();
+     $.ajax({
+        url: getDynamicServerContext()+"/acceptance/srcCountry?lang="+window.cmsConfig.language+"&region="+window.cmsConfig.region,
+        async: true,
+        type: "get",
+
+	    success: function(msg) {
+			var html="";
+			if(msg.length==0){
+		  	   $('#dataNotFound').show();
+		  	   $("#dataNotFound").fadeOut(5000);
+			}else{
+			   for(var key in msg){
+			      if(key == 0){
+			         html += '<a name="'+msg[key].shortName+'" class="ui-btn btn-radio selected" style="min-width:108px"  id="srcValue" onclick="getDestCountry(\''+msg[key].shortName+'\');">&nbsp;'+msg[key].cnName+'&nbsp;</a>';
+				     $.cookie('srcCodeId', msg[key].shortName);
+					 getDestCountry(msg[key].shortName);
+				  }else{
+			         html += '<a name="'+msg[key].shortName+'" class="ui-btn btn-radio" style="min-width:108px"  id="srcValue" onclick="getDestCountry(\''+msg[key].shortName+'\');">&nbsp;'+msg[key].cnName+'&nbsp;</a>';
+				  }
+			   }
+	           $("#srcCountryVal").html(html);
+			   //遍历单选按钮
+	           $(".btn-radio").each(function(){
+		           $(this).click(function(){$(this).addClass("selected").siblings("#srcValue").removeClass("selected");});
+	           });
+			}
+		},
+       	error: function(XMLHttpRequest, textStatus, errorThrown) {
+          $('body').hideLoading();
+		  if(XMLHttpRequest.status==404||XMLHttpRequest.status==403|| XMLHttpRequest.status==0){
+			 	$('#dataNotFound').show();
+				$("#dataNotFound").fadeOut(5000);
+		   }else{
+		   		$('#serverNetworkError').show();
+				$("#serverNetworkError").fadeOut(5000);
+		   }
+        },
+        complete: function(XMLHttpRequest, textStatus) {
+			$('body').hideLoading();
+            this;
+        }
+	});
+  }else{
+     $("#srcCountry").hide();
+	 $("#destCountry").hide();
+	 $("#isInternet").hide();
+	 $("#island").show();
+	 $("#landName").val("");
+	 $("#contactName").val("");
+	 $("#internetQuery").hide();
+	 $("#islandQuery").show();
+	 $("#islandQuery").addClass("disable");
+     $("#infoVal").hide();
+	 $("#other-tip").hide();
+	 $("#land-tip").show();
+  }
+
+	$("#hmt-where").hide();
+	$("#cn-where").hide();
+	$("#others-where").hide();
+	$("#acceptList").hide();
+}
+
+function getDestCountry(srcCountry)
+{
+  if(srcCountry)
+  {
+      $.cookie('srcCodeId', srcCountry);
+      $.ajax({
+        url: getDynamicServerContext()+"/acceptance/destCountry?lang="+window.cmsConfig.language+"&region="+window.cmsConfig.region,
+        async: true,
+        type: "get",
+		data: {
+			country: srcCountry
+		},
+	    success: function(msg) {
+			var html="";
+			if(msg.length==0){
+		  	   //$('#dataNotFound').show();
+		  	  // $("#dataNotFound").fadeOut(5000);
+			}else{
+			   for(var key in msg){
+			      if(key == 0){
+			         html += '<a name="'+msg[key].destCode+'" class="ui-btn btn-radio selected" style="min-width:108px"  id="destValue" info="'+msg[key].info+'" onclick="setDestCodeInfo(this);" >&nbsp;'+msg[key].name+'&nbsp;</a>';
+				     $.cookie('destCodeId', msg[key].destCode);
+					 $("#infoVal").text("温馨提示："+msg[key].info);
+				  }else{
+			         html += '<a name="'+msg[key].destCode+'" class="ui-btn btn-radio" style="min-width:108px"  id="destValue" info="'+msg[key].info+'" onclick="setDestCodeInfo(this);" >&nbsp;'+msg[key].name+'&nbsp;</a>';
+				  }
+			   }
+	           $("#destCountryVal").html(html);
+			   $("#infoVal").show();
+			   //遍历单选按钮
+	           $(".btn-radio").each(function(){
+		           $(this).click(function(){$(this).addClass("selected").siblings("#destValue").removeClass("selected");});
+	           });
+			}
+		},
+       	error: function(XMLHttpRequest, textStatus, errorThrown) {
+
+        },
+        complete: function(XMLHttpRequest, textStatus) {
+			$('body').hideLoading();
+            this;
+        }
+	});
+  }else{
+    return;
+  }
+}
+
+/*
+ *收寄标准HHT查询
+ */
+function getAcceptanceHHT(currentPage,pageSize){
+	$("#islandQuery").addClass("disable");
+	$("#islandQuery").removeAttr("onclick");
+	$('body').showLoading();
+		var landName=$("#landName").val()
+		if("object" == typeof(currentPage)){
+		    pageSize = currentPage.data.pageSize;
+			currentPage = currentPage.data.currentPage;
+		}
+		var country = "";
+		for(i=1;i<6;i++){
+		    if($("#country"+i).attr("class")=="ui-btn btn-item selected"){
+			    if(i==5){
+				   return;
+				}else{
+				  country = i;
+				}
+		    }else{
+
+		    }
+		}
+		$.ajax({
+        url: getDynamicServerContext()+"/acceptance/chmtcriteria?lang="+window.cmsConfig.language+"&region="+window.cmsConfig.region,
+        async: true,
+        type: "get",
+		data: {
+			country: country,
+			goodsName: landName,
+			currentPage:currentPage,
+			pageSize:pageSize
+		},
+	    success: function(msg) {
+		$("#islandQuery").removeClass("disable");
+		$("#islandQuery").attr("onclick","islandQuery();");
+		var html="";
+		if(msg==null){
+		  	$('#dataNotFound').show();
+		  	$("#dataNotFound").fadeOut(6000);
+			$("#acceptList").hide();
+		}else{
+			var msgList = msg.acceptCriterias;
+				if( msgList.length>0){
+					if(msg.code==-1){
+					   $("#cn-where").show();
+					   $("#hmt-where").hide();
+					   $("#others-where").hide();
+					}else if(msg.code==-2){
+					   $("#hmt-where").show();
+					   $("#cn-where").hide();
+					   $("#others-where").hide();
+					}
+					var acceptanceWhere=$("#acceptList");
+					for(var i in msgList){
+						var msgValue = msgList[i];
+						html+= '<li class="express-type-freight clearfix">';
+						html+= '		<div class="type" style="width:100px;">'+msgValue.goodsBigType+'</div>';
+						html+= '		<div class="type" style="width:120px;">'+msgValue.goodsName+'</div>';
+						html+= '		<div class="type" style="width:100px;">'+msgValue.landTransport+'</div>';
+						if(msg.code==-1){
+							 html+= '		<div class="type" style="width:80px;">'+msgValue.flightTransport+'</div>';
+						}
+						html+= '		<div class="type" style="width:190px;">'+(_isEmpty(msgValue.remark)?"":msgValue.remark)+'</div>';
+					}
+				 html += '<li class="fm-item"><div  style="width: 100%;text-align: center">';
+				 var pageInfo = msg.page;
+				 if(1 != pageInfo.currentPage){
+				  //  var pageValue = [{currentPage:(pageInfo.currentPage)-1},{pageSize:2}];
+					var curPage = Number(pageInfo.currentPage)-1;
+					html +='<a onclick="getAcceptanceHHT('+curPage+',10)">上一页</a>&nbsp;&nbsp;&nbsp;';
+				 }
+				 html +='&nbsp;&nbsp;<font color="black">共'+pageInfo.totalPage+'页</font>&nbsp;&nbsp;';
+				 if(pageInfo.totalPage != pageInfo.currentPage){
+				   // var pageValue = [{currentPage:(pageInfo.currentPage)+1},{pageSize:2}];
+				   var curPage = Number(pageInfo.currentPage)+1;
+					html +='&nbsp;&nbsp;&nbsp;<a onclick="getAcceptanceHHT('+curPage+',10)">下一页</a>';
+				 }
+				 html+='</div></li></ul>';
+				  acceptanceWhere.html(html);
+				  $("#acceptList").show();
+				}else{
+				  $('#dataNotFound').show();
+		  	      $("#dataNotFound").fadeOut(6000);
+				}
+			}
+		},error: function(XMLHttpRequest, textStatus, errorThrown) {
+          $('body').hideLoading();
+		  if(XMLHttpRequest.status==404||XMLHttpRequest.status==403|| XMLHttpRequest.status==0){
+			 	$('#dataNotFound').show();
+				$("#dataNotFound").fadeOut(6000);
+				$("#acceptList").hide();
+		   }else{
+		   		$('#serverNetworkError').show();
+				$("#serverNetworkError").fadeOut(6000);
+		   }
+        },
+        complete: function(XMLHttpRequest, textStatus) {
+			$('body').hideLoading();
+            this;
+        }
+	});
+}
+
+function setDestCodeInfo(obj){
+  $.cookie('destCodeId', obj.name);
+  $("#infoVal").text("温馨提示："+obj.attributes.info.value);
+}
+
+/*
+ *收寄标准CMSP查询
+ */
+function getAcceptanceCMSP(currentPage,pageSize){
+		$("#internetQuery").addClass("disable");
+		$("#internetQuery").removeAttr("onclick");
+		$('body').showLoading();
+		var isInternet=$("#contactName").val()
+		if("object" == typeof(currentPage)){
+		    pageSize = currentPage.data.pageSize;
+			currentPage = currentPage.data.currentPage;
+		}
+		var srcCode = $.cookie('srcCodeId');
+		var destCode = $.cookie('destCodeId');
+		$.ajax({
+        url: getDynamicServerContext()+"/acceptance/criteria?lang="+window.cmsConfig.language+"&region="+window.cmsConfig.region,
+        async: true,
+        type: "get",
+		data: {
+			srcCountryCode: srcCode,
+			desCountryCode: destCode,
+			goodsName: isInternet,
+			currentPage:currentPage,
+			pageSize:pageSize
+		},
+	    success: function(msg) {
+		$("#internetQuery").removeClass("disable");
+		$("#internetQuery").attr("onclick","internetQuery();");
+		var html="";
+		if(msg==null){
+		  	$('#dataNotFound').show();
+		  	$("#dataNotFound").fadeOut(6000);
+			$("#acceptList").hide();
+		}else{
+			var msgList = msg.acceptCriterias;
+			if( msgList.length>0){
+				$("#hmt-where").hide();
+				$("#cn-where").hide();
+				$("#others-where").show();
+				var acceptanceWhere=$("#acceptList");
+				for(var i in msgList){
+					var msgValue = msgList[i];
+					html+= '<li class="express-type-freight clearfix">';
+					html+= '		<div class="type" style="width:100px;">'+msgValue.goodsBigType+'</div>';
+					html+= '		<div class="type" style="width:120px;">'+msgValue.goodsName+'</div>';
+					if(msgValue.receiptType =='1'){
+					   msgValue.receipt='允许收寄';
+					}else if(msgValue.receiptType =='2'){
+					   msgValue.receipt='禁止收寄';
+					}else{
+					   msgValue.receipt='限制收寄';
+					}
+					html+= '		<div class="type" style="width:100px;">'+msgValue.receipt+'</div>';
+					html+= '		<div class="type" style="width:190px;">'+msgValue.remark+'</div>';
+				}
+				 html += '<li class="fm-item"><div  style="width: 100%;text-align: center">';
+				 var pageInfo = msg.page;
+				 if(1 != pageInfo.currentPage){
+				  //  var pageValue = [{currentPage:(pageInfo.currentPage)-1},{pageSize:2}];
+					var curPage = Number(pageInfo.currentPage)-1;
+					html +='<a onclick="getAcceptanceCMSP('+curPage+',10)">上一页</a>&nbsp;&nbsp;&nbsp;';
+				 }
+				 html +='&nbsp;&nbsp;<font color="black">共'+pageInfo.totalPage+'页</font>&nbsp;&nbsp;';
+				 if(pageInfo.totalPage != pageInfo.currentPage){
+				   // var pageValue = [{currentPage:(pageInfo.currentPage)+1},{pageSize:2}];
+				   var curPage = Number(pageInfo.currentPage)+1;
+					html +='&nbsp;&nbsp;&nbsp;<a onclick="getAcceptanceCMSP('+curPage+',10)">下一页</a>';
+				 }
+				 html+='</div></li></ul>';
+			     acceptanceWhere.html(html);
+			     $("#acceptList").show();
+			   }else{
+				  $('#dataNotFound').show();
+		  	      $("#dataNotFound").fadeOut(6000);
+				}
+			}
+		},error: function(XMLHttpRequest, textStatus, errorThrown) {
+          $('body').hideLoading();
+		  if(XMLHttpRequest.status==404||XMLHttpRequest.status==403|| XMLHttpRequest.status==0){
+			 	$('#dataNotFound').show();
+				$("#dataNotFound").fadeOut(6000);
+				$("#acceptList").hide();
+		   }else{
+		   		$('#serverNetworkError').show();
+				$("#serverNetworkError").fadeOut(6000);
+		   }
+        },
+        complete: function(XMLHttpRequest, textStatus) {
+			$('body').hideLoading();
+            this;
+        }
+	});
+}
+
+
+/*
+ *进出口规则
+ */
+/*
+function getSrcTax(currentPage,pageSize){
+		$('body').showLoading();
+		if("object" == typeof(currentPage)){
+		    pageSize = currentPage.data.pageSize;
+			currentPage = currentPage.data.currentPage;
+		}
+		$.ajax({
+        url: window.cmsConfig.dynamicServerContext+"/regular/tax?lang="+window.cmsConfig.language+"&region="+window.cmsConfig.region,
+        async: true,
+        type: "get",
+		data: {
+			code:$("#srcCode").val(),
+	        descType:$("input[type='radio']:checked").val(),
+	        goodValue:$("#goodValue").val(),
+	        weight:$("#weight").val(),
+	        goodName:$("#goodName").val(),
+	        goodCode:$("#goodCode").val(),
+	        flag:'E',
+			currentPage:currentPage,
+			pageSize:pageSize
+		},
+	    success: function(msg) {
+		var html="";
+		var result=$("#srcResult");
+		if(msg.code=="0"){
+			var msgList = msg.goods;
+			if( msgList.length>0){
+				for(var i in msgList){
+					var msgValue = msgList[i];
+					var goodName = msgValue.goodName==null?'':msgValue.goodName;
+					var taxTotal = msgValue.taxTotal==null?'':msgValue.taxTotal;
+					html+= '<tr><td>'+goodName+'</td>';
+					html+= '<td>'+taxTotal+'</td><td>';
+					var taxs = msgValue.taxs;
+					for(var m in taxs){
+					   var tax = taxs[m];
+					   html += tax.taxName+':'+tax.taxRate+'%<br/>';
+					}
+					html+='</td><td>';
+					var imgs = msgValue.images;
+					for(var n in imgs){
+					   var img = imgs[n];
+					   html += (parseInt(n)+1)+':<a target="_blank" href="http://www.sf-express.com/resources/images/guanwu/'+img.imageNameGw+'">'+img.imageName+'</a><br/>';
+					}
+					html+='</td></tr>';
+
+				}
+				 html += '<tr><td colspan="4" style="width: 100%;text-align: center">';
+				 var pageInfo = msg.page;
+				 if(1 != pageInfo.currentPage){
+				  //  var pageValue = [{currentPage:(pageInfo.currentPage)-1},{pageSize:2}];
+					var curPage = Number(pageInfo.currentPage)-1;
+					html +='<a onclick="getSrcTax('+curPage+',10)">上一页</a>&nbsp;&nbsp;&nbsp;';
+				 }
+				 html +='&nbsp;&nbsp;<font color="black">共'+pageInfo.totalPage+'页</font>&nbsp;&nbsp;';
+				 if(pageInfo.totalPage != pageInfo.currentPage){
+				   // var pageValue = [{currentPage:(pageInfo.currentPage)+1},{pageSize:2}];
+				   var curPage = Number(pageInfo.currentPage)+1;
+					html +='&nbsp;&nbsp;&nbsp;<a onclick="getSrcTax('+curPage+',10)">下一页</a>';
+				 }
+				 html+='</td></tr>';
+			    // $("#acceptList").show();
+			   }
+			}
+			result.html(html);
+		},error: function(XMLHttpRequest, textStatus, errorThrown) {
+        },
+        complete: function(XMLHttpRequest, textStatus) {
+		    $('body').hideLoading();
+            this;
+        }
+	});
+}
+
+function getDestTax(currentPage,pageSize){
+        $('body').showLoading();
+		if("object" == typeof(currentPage)){
+		    pageSize = currentPage.data.pageSize;
+			currentPage = currentPage.data.currentPage;
+		}
+		$.ajax({
+        url: window.cmsConfig.dynamicServerContext+"/regular/tax?lang="+window.cmsConfig.language+"&region="+window.cmsConfig.region,
+        async: true,
+        type: "get",
+		data: {
+	        code:$("#destCode").val(),
+	        descType:$("input[type='radio']:checked").val(),
+	        goodValue:$("#goodValue").val(),
+	        weight:$("#weight").val(),
+	        goodName:$("#goodName").val(),
+	        goodCode:$("#goodCode").val(),
+			flag:'I',
+			currentPage:currentPage,
+			pageSize:pageSize
+		},
+	    success: function(msg) {
+		var html="";
+		var result=$("#destResult");
+		if(msg.code=="0"){
+			var msgList = msg.goods;
+			if( msgList.length>0){
+				for(var i in msgList){
+					var msgValue = msgList[i];
+					var goodName = msgValue.goodName==null?'':msgValue.goodName;
+					var taxTotal = msgValue.taxTotal==null?'':msgValue.taxTotal;
+					html+= '<tr><td>'+goodName+'</td>';
+					html+= '<td>'+taxTotal+'</td><td>';
+					var taxs = msgValue.taxs;
+					for(var m in taxs){
+					   var tax = taxs[m];
+					   html += tax.taxName+':'+tax.taxRate+'%<br/>';
+					}
+					html+='</td><td>';
+					var imgs = msgValue.images;
+					for(var n in imgs){
+					   var img = imgs[n];
+					   html += (parseInt(n)+1)+':<a target="_blank" href="http://www.sf-express.com/resources/images/guanwu/'+img.imageNameGw+'">'+img.imageName+'</a><br/>';
+					}
+					html+='</td></tr>';
+
+				}
+				 html += '<tr><td colspan="4" style="width: 100%;text-align: center">';
+				 var pageInfo = msg.page;
+				 if(1 != pageInfo.currentPage){
+				  //  var pageValue = [{currentPage:(pageInfo.currentPage)-1},{pageSize:2}];
+					var curPage = Number(pageInfo.currentPage)-1;
+					html +='<a onclick="getDestTax('+curPage+',10)">上一页</a>&nbsp;&nbsp;&nbsp;';
+				 }
+				 html +='&nbsp;&nbsp;<font color="black">共'+pageInfo.totalPage+'页</font>&nbsp;&nbsp;';
+				 if(pageInfo.totalPage != pageInfo.currentPage){
+				   // var pageValue = [{currentPage:(pageInfo.currentPage)+1},{pageSize:2}];
+				   var curPage = Number(pageInfo.currentPage)+1;
+					html +='&nbsp;&nbsp;&nbsp;<a onclick="getDestTax('+curPage+',10)">下一页</a>';
+				 }
+				 html+='</td></tr>';
+			    // $("#acceptList").show();
+			   }
+			}
+			result.html(html);
+		},error: function(XMLHttpRequest, textStatus, errorThrown) {
+        },
+        complete: function(XMLHttpRequest, textStatus) {
+		    $('body').hideLoading();
+            this;
+        }
+	});
+}*/
+
+
+
