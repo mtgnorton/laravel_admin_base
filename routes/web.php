@@ -16,7 +16,7 @@ Route::get('/', function () {
 });
 
 
-Route::get('/sf', function () {
+Route::get('/sf-view', function () {
 
     return view('sf');
 });
