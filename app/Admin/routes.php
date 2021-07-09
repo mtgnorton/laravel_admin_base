@@ -42,6 +42,6 @@ Route::group([
     $router->resource('logs', 'LogController');
 
     $router->any('install', 'InstallController@index')->name('install');
-    $router->resource('positions', 'PositionController::class@index');
+    $router->resource('positions', 'PositionController');
 
 });
