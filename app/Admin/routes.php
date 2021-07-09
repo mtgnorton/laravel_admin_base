@@ -19,6 +19,7 @@ Route::group([
         'posts'    => 'PostController',
         'comments' => 'CommentController',
     ]);
+
     $router->resource('certifications', 'CertificationController');
     $router->get('backups', 'BackupController@index');
     $router->delete('backups/{id}', 'BackupController@destroy');
@@ -41,5 +42,6 @@ Route::group([
     $router->resource('logs', 'LogController');
 
     $router->any('install', 'InstallController@index')->name('install');
+    $router->resource('positions', 'PositionController::class@index');
 
 });

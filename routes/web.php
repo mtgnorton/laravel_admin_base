@@ -22,5 +22,12 @@ Route::get('/sf', function () {
 });
 
 Route::post('/sf-save', function () {
+
+    \App\Model\Position::create([
+        't1' => request()->t1,
+        't2' => request()->t2,
+    ]);
     common_log('', request()->all());
 });
+
+
