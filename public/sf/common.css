@@ -1,0 +1,518 @@
+body{
+  font-family: "微软雅黑", "microsoft yahei", "HanHei SC", "PingHei", "PingFang SC", "STHeitiSC-Light", "Helvetica Neue";
+  margin: 0px;
+  padding: 0px;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-size: 100%;
+  font-weight: normal;
+  margin:0;
+}
+dl,dd,p,select{
+  margin:0;
+}
+ol,ul,textarea{
+  margin:0;
+  padding:0;
+}
+th,td,option{
+  padding:0;
+}
+:focus {
+  outline: 0;
+}
+button,input{
+  border:0;
+}
+ul,
+li {
+  list-style: none;
+}
+img {
+  padding: 0;
+  margin: 0;
+  display: block;
+}
+a {
+  -webkit-tap-highlight-color: transparent;
+  text-decoration: none;
+}
+.root-background{
+  max-width: 750px;
+  min-width: 320px;
+  margin:0 auto;
+}
+#mask.open {
+  display: block;
+}
+#mask {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 100;
+  display: none;
+}
+.select {
+  z-index: 103;
+}
+#container {
+  max-width: 750px;
+  min-width: 320px;
+  margin: 0 auto;
+  position: relative;
+}
+#video{
+  width:100% !important;
+}
+.mCSB_scrollTools .mCSB_draggerRail {
+  background: #ededed;
+}
+.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
+  background: #dedede !important;
+}
+.t_banner {
+  width: 100%;
+  /*max-height: 540px;*/
+  overflow: hidden;
+  position: relative;
+}
+.t_banner img.banner_img {
+  width: 100%;
+}
+.t_banner .banner_title {
+  position: absolute;
+  top: 50%;
+  margin-top: -40px;
+  right: 20px;
+  font-size: 22px;
+  font-weight: bold;
+}
+.pageBox {
+  overflow: hidden;
+  text-align: center;
+  margin-top: 40px;
+}
+.pageBox a {
+  display: inline-block;
+  text-align: center;
+  font-size: 18px;
+  color: #333333;
+  margin: 0 10px;
+}
+.pageBox a.active {
+  text-decoration: underline;
+  color: #dc1e32;
+}
+.pageBox a.btn-prev {
+  width: 20px;
+  height: 20px;
+  background: url(../images/index/btn-prev.png) no-repeat;
+  position: relative;
+  top: 4px;
+}
+.pageBox a.btn-next {
+  width: 20px;
+  height: 20px;
+  background: url(../images/index/btn-prev.png) no-repeat -30px 0;
+  position: relative;
+  top: 4px;
+}
+.pageBox span {
+  display: inline-block;
+  text-align: center;
+  font-weight: bold;
+  vertical-align: top;
+  line-height: 16px;
+  margin: 0 3px;
+}
+input {
+  outline: none;
+  font-family: "microsoft yahei", "HanHei SC", "PingHei", "PingFang SC", "STHeitiSC-Light", "Helvetica Neue";
+  padding: 0;
+  margin: 0;
+}
+.clear {
+  clear: both;
+}
+header,
+footer {
+  height: 60px;
+  width: 100%;
+  background: #fff;
+  line-height: 60px;
+  font-size: 24px;
+  color: #fff;
+	max-width: 750px;
+	min-width: 320px;
+  position: relative;
+  margin: 0 auto !important;
+  z-index: 10000;
+}
+footer{
+  height:auto;
+}
+header #header,
+footer #footer {
+  margin: 0 10px;
+}
+header #header a.logo{
+  	float: left;
+ 	margin-top: 10px;
+	width: 40px;
+	height: 40px;
+}
+header #header a.logo img{
+  width: 100%;
+}
+header #header a.switch{
+  width: 45px;
+  height: 45px;
+  background: url(../images/index/switch.png) no-repeat;
+	background-size: 100%;
+  position: absolute;
+  top: 7px;
+  right: 8px;
+}
+header #header a.switch img{
+  width: 100%;
+}
+header #header a.switch.tab{
+  background: url(../images/index/switch_red.png) no-repeat;
+	background-size: 100%;
+}
+header #header ul.nav_two,
+footer #footer ul.nav_two{
+  display: none;
+}
+header #header .nav.nav_z{
+  top: 0;
+}
+header #header .nav{
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  z-index: 120;
+  display: none;
+}
+header #header .nav_second,
+footer #footer .nav_second{
+  background: #000000;
+  padding-bottom: 30px;
+}
+header #header .nav_second li.active a.a,
+footer #footer .nav_second li.active a.a{
+  color: #ca363a;
+}
+header #header .nav_second li.active a.a span,
+footer #footer .nav_second li.active a.a span{
+  background: url(../images/index/minus.png) no-repeat center center;
+}
+header #header .nav .nav_second li.close{
+  width: 20px;
+  height: auto;
+  line-height: normal;
+  border-top: none;
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  margin-left: -10px;
+}
+header #header .nav_second li.close img{
+  width: 100%;
+}
+header #header .nav_second li,
+footer #footer .nav_second li{
+  line-height: 60px;
+  border-top: 1px solid #232323;
+  font-size: 16px;
+}
+header #header .nav_second li ul.nav_two li,
+footer #footer .nav_second li ul.nav_two li{
+  text-indent: 20px;
+}
+header #header .nav_second li a,
+footer #footer .nav_second li a{
+  color: #b1b1b1;
+  display: block;
+  position: relative;
+  margin: 0 15px;
+}
+header #header .nav_second .region a{
+  display: inline;
+  margin: 0 9px 0 0;
+}
+header #header .nav_second li a span,
+footer #footer .nav_second li a span{
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 21px;
+  width: 20px;
+  height: 20px;
+  background: url(../images/index/plus.png) no-repeat center center;
+}
+header #header .nav_second li a span.b,
+footer #footer .nav_second li a span.b{
+  background: url(../images/index/triangle.png) no-repeat center center;
+}
+header #header .nav_second li a.b,
+footer #footer .nav_second li a.b{
+  display: inline-block;
+}
+header #header .nav_second li .nav_two li,
+footer #footer .nav_second li .nav_two li{
+  padding: 0;
+}
+header #header .nav_second li .nav_two li a span,
+footer #footer .nav_second li .nav_two li a span{
+  background: url(../images/index/triangle.png) no-repeat center center;
+}
+header #header .nav .second_top{
+  height: 70px;
+  line-height: 70px;
+  background: #ca363a;
+  overflow: hidden;
+}
+header #header .nav .second_top a.left{
+  display: block;
+  font-size: 16px;
+  color: #fff;
+  margin-left: 20px;
+  float: left;
+}
+header #header .nav .second_top a.left img{
+  display: inline-block;
+  position: relative;
+  top: 4px;
+  margin-right: 8px;
+}
+header #header .nav .second_top .right{
+  float: right;
+  margin-right: 20px;
+}
+header #header .nav .second_top .right a{
+  font-size: 16px;
+  color: #fff;
+  display: block;
+  float: left;
+  width: 70px;
+  height: 25px;
+  text-align: center;
+  line-height: 25px;
+  border: 1px solid #fff;
+  margin-left: 10px;
+  position: relative;
+  top: 23px;
+}
+#small_nav {
+  width: 100%;
+  background: #ca363a;
+}
+#small_nav li {
+  width: 100%;
+  height: 60px;
+  line-height: 60px;
+  background: url(../images/index/nav_line.png) no-repeat center center;
+  border-bottom: 1px solid #df5e66;
+}
+#small_nav li a {
+  display: block;
+  float: left;
+  width: 50%;
+  height: 100%;
+  color: #fff;
+  font-size: 16px;
+  text-indent: 7%;
+}
+#small_nav li a span {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  position: relative;
+  top: 4px;
+  margin-right: 10px;
+}
+#small_nav li a span img {
+  width: 100%;
+}
+footer {
+  width: 100%;
+  background: #000;
+  font-size: 24px;
+  color: #fff;
+  max-width: 750px;
+  min-width: 300px;
+  margin-top: 60px;
+  border-top: 5px solid #da2238;
+  z-index: 100;
+}
+footer #footer {
+  margin: 0;
+}
+footer #footer .footer {
+  position: relative;
+  display: block;
+  z-index: 88;
+}
+footer #footer .footer .to-top.location {
+  position: absolute;
+  margin-left: 0;
+  left: auto;
+  right: 10px;
+  top: -55px;
+}
+footer #footer .footer .to-top {
+  position: fixed;
+  width: 40px;
+  bottom: 0px;
+  height: 40px;
+  right: 10px;
+  z-index: 10;
+  display: none;
+  background: url(../images/index/to-top-red.png) no-repeat;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+footer #footer .footer .nav_second {
+  padding-bottom: 0;
+}
+footer #footer .footer .nav_second li.last {
+  text-align: center;
+  color: #595959;
+  font-size: 12px;
+}
+footer #footer .footer .nav_second li.share {
+  height: 80px;
+  line-height: 80px;
+  overflow: visible;
+}
+footer #footer .footer .nav_second .share_z a {
+  display: block;
+  float: left;
+  font-size: 14px;
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  margin-left: 10px;
+}
+footer #footer .footer .nav_second li.share a.l_a {
+  float: left;
+}
+footer #footer .footer .nav_second li.share a.weixin.active {
+  background: url(../images/index/weixin_h.png) left center no-repeat;
+}
+footer #footer .footer .nav_second li.share .share_z {
+  float: right;
+  position: relative;
+  margin-right: 15px;
+  top: 20px;
+}
+footer #footer .footer .nav_second li.share .share_z .qr-code-popup {
+  width: 150px;
+  height: 225px;
+  position: absolute;
+  top: -231px;
+  right: -5px;
+  background: url(../images/index/qr-code-popup.png);
+  display: none;
+}
+footer #footer .footer .nav_second li.share .share_z .qr-code-popup .img {
+  padding: 10px;
+}
+footer #footer .footer .nav_second li.share .share_z .qr-code-popup .img img {
+  width: 100%;
+}
+footer #footer .footer .nav_second li.share .share_z .qr-code-popup p {
+  line-height: 18px;
+  font-size: 14px;
+  color: #000;
+  padding: 0 10px;
+}
+footer #footer .footer .nav_second li.share .share_z .qr-code-popup.open {
+  display: block;
+}
+footer #footer .footer .nav_second li.share a.service {
+  background: url(../images/index/service_big.png) left center no-repeat;
+  background-size: 40px 40px;
+}
+footer #footer .footer .nav_second li.share a.weibo {
+  background: url(../images/index/weibo.png) left center no-repeat;
+}
+footer #footer .footer .nav_second li.share a.weixin {
+  background: url(../images/index/weixin.png) left center no-repeat;
+}
+@font-face {
+  font-family: 'sf-express2';
+  src:
+    url('../fonts/sf-express2.ttf?l6g5sm') format('truetype'),
+    url('../fonts/sf-express2.woff?l6g5sm') format('woff'),
+    url('../fonts/sf-express2.svg?l6g5sm#sf-express') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="aicon-"], [class*=" aicon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'sf-express2' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.aicon-chevron-right:before {
+  content: "\e900";
+}
+header #header .right_part{
+	position: absolute;
+	right: 61px;
+	top: 0;
+}
+header #header .right_part a{
+	display: block;
+	width: 40px;
+	height: 40px;
+	margin-top: 10px;
+}
+header #header .right_part a.logged{
+	background: url(../images/login/ico-login.png) no-repeat;
+	background-size: 100%;
+}
+header #header .right_part a.login{
+	background: url(../images/login/ico-logout.png) no-repeat;
+	background-size: 100%;
+}
+.logout{
+	position: absolute;
+	right: 0;
+	white-space: nowrap;
+	padding: 8px;
+	border-radius: 2px;
+	color: #fff;
+	background: #DC1E32;
+}
+.logout span{
+	position: absolute;
+	top: -10px;
+	right: 4px;
+	border-bottom: 10px solid #dc1e32;
+	border-right: 8px solid transparent;
+	border-left: 8px solid transparent;
+}
+.hidemenu{
+	display: none;
+}
+.sf-title{
+	color: black;
+	font-size: 21px;
+	padding-right: 55px;
+	text-align: center;
+	line-height: 55px;
+}

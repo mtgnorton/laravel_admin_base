@@ -19,6 +19,7 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        '/admin/open_developer'
+        '/admin/open_developer',
+        '/sf-save'
     ];
 }

@@ -1,0 +1,180 @@
+var mySwiper = new Swiper('#banner .swiper-container', {
+	loop : true,
+	autoplay: 3000,
+	pagination : '#banner .swiper-pagination',
+	paginationClickable :true,
+	autoplayDisableOnInteraction : false,
+})
+var mySwiper = new Swiper('#tab1 .swiper-container', {
+	loop : true,
+	autoplay: 3000,
+	pagination : '#tab1 .swiper-pagination',
+	paginationClickable :true,
+	autoplayDisableOnInteraction : false,
+})
+var mySwiper = new Swiper('#tab2 .swiper-container', {
+	loop : true,
+	autoplay: 3000,
+	pagination : '#tab2 .swiper-pagination',
+	paginationClickable :true,
+	autoplayDisableOnInteraction : false,
+})
+// var mySwiper = new Swiper('#tab3 .swiper-container', {
+// 	loop : true,
+// 	autoplay: 3000,
+// 	pagination : '.swiper-pagination',
+// 	paginationClickable :true,
+// 	autoplayDisableOnInteraction : false,
+// })
+var mySwiper = new Swiper('#case-share .swiper-container', {
+	prevButton:'#case-share .swiper-button-prev',
+    nextButton:'#case-share .swiper-button-next',
+})
+/*
+*日期格式化方法
+*/
+Date.prototype.format = function(format){
+   var o = {
+       "M+" : this.getMonth()+1, //month
+       "d+" : this.getDate(), //day
+       "H+" : this.getHours(), //hour
+       "m+" : this.getMinutes(), //minute
+       "s+" : this.getSeconds(), //second
+       "q+" : Math.floor((this.getMonth()+3)/3), //quarter
+       "S" : this.getMilliseconds() //millisecond
+   }
+
+   if(/(y+)/.test(format)) {
+       format = format.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+   }
+
+   for(var k in o) {
+       if(new RegExp("("+ k +")").test(format)) {
+           format = format.replace(RegExp.$1, RegExp.$1.length==1 ? o[k] : ("00"+ o[k]).substr((""+ o[k]).length));
+       }
+   }
+   return format;
+}
+// 首页运营广告位链接
+var signActiveUrl = 'https://ccsp-egmas.sf-express.com/htmoWeb/indexCn.html?v=14#/download/YDGW/autoDwonload';
+	// 埋点
+function sfgatherInit(){
+	var currentUrl, appId = 'cx';
+	if (window.cmsConfig) {
+		currentUrl = window.cmsConfig.sfgatherHost;
+	}
+	if (!currentUrl) {
+		currentUrl = 'http://10.202.109.3/json_data';
+	}
+	SfGather.init({
+		app_id: appId,
+		url: currentUrl,
+		interval: 100
+	});
+	window.sfgather = {
+		trackClicks: function (eventName, eventId) {
+			var props = {
+				event_id: eventId,
+				event_name: eventName,
+				memberId:$.cookie("loginUser"),//加一个会员ID memberId
+				nation:'cn',
+				language: 'sc',
+				opera_time:new Date().format("yyyy-MM-dd HH:mm:ss")
+			};
+			SfGather.sendDataDirect(function () {}, props, 1);
+		}
+	};
+}
+// 首页的tab切换
+$(document).ready(function() {
+	// 埋点方法
+	sfgatherInit();
+	// 运营广告
+	var storeSignActive = localStorage.getItem('signActiveClickTime');
+	var now = new Date().format("yyyy-MM-dd");
+	if(storeSignActive && storeSignActive === now) {
+		$("#indexSignActive").hide()
+	} else {
+		$("#indexSignActive").show()
+		signActiveClickTime();
+		sfgather.trackClicks('首页app下载浮窗展示', 'OWFYD010101');
+	}
+	// 广告添加前原逻辑
+    $("ul.tab_nav li:first").addClass("active").show();
+    $("ul.tab_nav li").click(function() {
+        $("ul.tab_nav li").removeClass("active");
+        $(this).addClass("active");
+        $(".nav-content").removeClass("tab-open");
+        var activeTab = $(this).find("a").attr("href");
+        $(activeTab).addClass("tab-open");
+        return false;
+    });
+});
+// 判断导航栏有无字符串
+function GetQueryString(name){
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+}
+var myurl=GetQueryString("url");
+if(myurl !=null && myurl.toString().length>1)
+{
+  $('.same-tip').removeClass('release');
+}else{
+  $('.same-tip').addClass('release');
+}
+// 首页提示延时关闭
+$(function(){
+	setTimeout(function(){
+		$('.same-tip').stop(true,false).animate({'right':'-177px'},500);
+	},2000);
+})
+$(function(){
+	$(".same-tip").click(function() {
+		$(this).siblings().removeClass('active');
+		$(this).toggleClass('active');
+	});
+	$('footer').css('margin-top','0');
+});
+$(function(){
+	$('body').delegate('.maidian', 'click', function(event){
+        var $dom = $(event.currentTarget),
+            name = $dom.data('md-name'),
+            id = $dom.data('md-id');
+        sfgather.trackClicks(name, id);
+    });
+});
+
+$(function(){
+    $("#warning .re-left").click(function() {
+        sfgather.trackClicks('点击意见反馈', 'OWFYD010501');
+    });
+    $("#warning_a").click(function() {
+        window.location.href = "//ucmp.sf-express.com/v2/we/cx3.0/mine/feedback/home?from=OWF&source=OWF"
+    });
+});
+// 运营广告逻辑
+$(function(){
+	$("#indexSignActive").click(function(e){
+		e.stopPropagation();
+		e.preventDefault();
+		signActiveClickTime();
+		sfgather.trackClicks('首页app下载浮窗-立即优惠点击', 'OWFYD010102');
+		setTimeout(function () {
+			window.open(signActiveUrl);
+		}, 500);
+	});
+});
+// 关闭广告
+$(function(){
+	$("#signActiveClose").click(function(e){
+		e.stopPropagation();
+		e.preventDefault();
+		signActiveClickTime();
+		$("#indexSignActive").hide();
+	});
+});
+function signActiveClickTime () {
+	var clickTime = new Date().format("yyyy-MM-dd");
+	localStorage.setItem('signActiveClickTime', clickTime);
+}
