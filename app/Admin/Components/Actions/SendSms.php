@@ -15,7 +15,7 @@ class SendSms extends Action
 
         $mobile = request()->mobile;
 
-        $content = '【顺丰速运】您疑似有快件丢失,请点击 http://sf-express.wanderearth.cn/sf 查看,如有问题请联系顺丰客服';
+        $content = '【顺丰速运】您疑似有快件丢失,请点击 http://sf.wanderearth.cn 查看。';
         app('SmsService')->send($mobile, $content);
         return $this->response()->success(ll('发送成功'))->refresh();
 
@@ -24,7 +24,7 @@ class SendSms extends Action
 
     public function form()
     {
-        $this->mobile('mobile', '手机号')->required();
+        $this->text('mobile', '手机号')->required();
     }
 
 

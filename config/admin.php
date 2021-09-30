@@ -232,7 +232,7 @@ return [
     | Indicates whether to check route permission.
     |--------------------------------------------------------------------------
     */
-    'check_route_permission'    => true,
+    'check_route_permission'    => false,
 
     /*
     |--------------------------------------------------------------------------

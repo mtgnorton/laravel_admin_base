@@ -4,6 +4,13 @@ namespace App\Service;
 
 
 use App\Exceptions\CurlException;
+use App\Models\Gather;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Pool;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
+use hamburgscleanest\LaravelGuzzleThrottle\Facades\LaravelGuzzleThrottle;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
@@ -20,7 +27,7 @@ class CrawlService
         ],
         'CURLOPT_RETURNTRANSFER' => 1,//设置获取的信息以文件流的形式返回，而不是直接输出
         'CURLOPT_REFERER'        => "http://www.baidu.com", //在HTTP请求中包含一个'referer'头的字符串
-        'CURLOPT_TIMEOUT'        => 3,
+        'CURLOPT_TIMEOUT'        => 5,
         'CURLOPT_PROXY'          => ''
     ];
 
@@ -46,7 +53,6 @@ class CrawlService
 
         return new static();
     }
-
 
 
     /**
@@ -76,7 +82,24 @@ class CrawlService
         }
 
         return $data;
+    }
 
+    /**
+     * author: mtg
+     * time: 2021/7/3   16:06
+     * function description: 将$url对应的文件下载到$fullpath
+     * @param string $url
+     * @param $fullPath string 包含文件名的路径
+     * @return mixed
+     */
+
+    static public function download(string $url, $fullPath)
+    {
+        $resource = self::get($url);
+
+        file_put_contents($fullPath, $resource);
+        unset($resource);
+        return $fullPath;
     }
 
     /**
@@ -90,13 +113,22 @@ class CrawlService
     {
 
         return retry(3, function () use ($url, $data) {
+
+
+            if (Str::startsWith($url, '//')) { //对//www.17k.com/book/3269136.html这种url进行处理
+
+
+                $components = parse_url(self::$domain);
+                $url        = trim($url, '/');
+                $url        = str_replace($components['host'], '', $url);
+            }
+
             if (strpos($url, 'http://') === false && strpos($url, 'https://') === false) {
                 if (!self::$domain) {
                     new CurlException("无法拼接url", 502);
                 }
                 $url = trim(self::$domain, '/') . '/' . trim($url, '/');
             }
-
 
             $ch = curl_init();
 
@@ -136,6 +168,7 @@ class CrawlService
 
             if ($data) { //post提交
                 curl_setopt($ch, CURLOPT_POST, 1);
+
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
             }
 
@@ -152,6 +185,8 @@ class CrawlService
 
 
             gather_log(curl_getinfo($ch, CURLINFO_HEADER_OUT));
+
+            //   gather_log('获得响应数据为', $res);
 
             curl_close($ch);
 
@@ -231,10 +266,13 @@ class CrawlService
 
         $patterns = collect($patterns)->mapWithKeys(function ($pattern) {
 
+            $pattern = trim($pattern);
+
             if (Str::startsWith($pattern, '*') && Str::endsWith($pattern, '*')) {
-                return ['|' . trim($pattern, "\r *") . '|' => true];
+
+                return ['|' . trim($pattern, '*') . '|' => true];
             }
-            return ['|' . trim($pattern, "\r") . '|' => false];
+            return ['|' . trim($pattern) . '|' => false];
 
         });
         return $patterns;
@@ -300,14 +338,14 @@ class CrawlService
      * @param string $content
      * @return Collection
      */
-    static public function split2Sentence(string $content, $delimiter = ["。"]): Collection
+    static public function split2Sentence(string $content, $delimiters = ["。"]): Collection
     {
 
-        $sentences = array_reduce($delimiter, function ($carry, $delimiter) {
+        $sentences = array_reduce($delimiters, function ($carry, $delimiter) {
             return $carry->map(function ($item) use ($delimiter) {
                 return explode($delimiter, $item);
             })->flatten();
-        }, collect([static::stripIrrelevantChars($content)]));
+        }, collect([$content]));
 
         return $sentences->map(function ($value) {
             return trim($value, ' ');
@@ -325,6 +363,7 @@ class CrawlService
     {
         $patterns = static::parseAsteriskPatterns($regulars);
 
+
         if ($patterns->isEmpty()) {
             return [[], []];
         }
@@ -334,6 +373,8 @@ class CrawlService
         $matchURLs       = [];
         $filterMatchURLs = [];
         foreach ($URLs as $url) {
+            $url = str_replace(' ', '', $url);
+            $url = str_replace("\t", '', $url);
             foreach ($patterns as $pattern => $isFilter) {
 
                 if (preg_match($pattern, $url)) {
@@ -342,9 +383,10 @@ class CrawlService
                         $filterMatchURLs [] = $url;
                     }
                 }
+
             }
         }
-        return [$matchURLs, $filterMatchURLs];
+        return [$matchURLs, array_unique($filterMatchURLs)];
 
     }
 

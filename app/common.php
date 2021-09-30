@@ -98,8 +98,6 @@ function ll($key, $replace = [], $locale = null)
 }
 
 
-
-
 /**
  * author: mtg
  * time: 2020/12/10   9:44
@@ -392,8 +390,6 @@ function is_win(): bool
 }
 
 
-
-
 function curl_get(string $url, $isReturnJSON = true)
 {
     $ch = curl_init($url);
@@ -453,6 +449,31 @@ function radio_transform(string $radio)
 }
 
 
+
+/**
+ * author: mtg
+ * time: 2021/7/29   14:54
+ * function description:新增或更新配置
+ * @param $key
+ * @param $value
+ * @param $module
+ * @param false $isClearCache
+ */
+function conf_insert_or_update($key, $value, $module, $isClearCache = false)
+{
+    Config::updateOrInsert( //更新到期时间
+        [
+            'module' => $module,
+            'key'    => $key,
+        ],
+        [
+            'value' => $value
+        ]);
+    if ($isClearCache) {
+        \Illuminate\Support\Facades\Cache::delete(RedisCacheKeyConstant::CACHE_CONFIGS_KEY);
+
+    }
+}
 /**
  * author: mtg
  * time: 2021/6/25   11:34
@@ -500,7 +521,7 @@ function sql_log(string $message, $context = [])
 
 function gather_log(string $message, $context = [])
 {
-    common_log($message, $context, 'sql');
+    common_log($message, $context, 'gather');
 
 }
 
@@ -532,6 +553,26 @@ function modify_env(array $data)
     \File::put($envPath, $content);
 }
 
+
+function force_notify($content = "", $title = "提示", $type = "success")
+{
+
+    $info = <<<EOT
+
+<div class="alert alert-$type alert-dismissible">
+                <h4><i class="icon fa fa-info"></i> $title!</h4>
+$content
+ </div>
+<script >
+  var h = $(document).height()-$(window).height();
+
+  $(document).scrollTop(h);
+
+</script>
+EOT;
+
+    force_response($info);
+}
 
 /**
  * author: mtg
@@ -575,8 +616,7 @@ function get_remote_latest_version_info()
     $info = Cache::get('system_latest_version_info');
 
     if (!$info) {
-        $url = trim(config('seo.official_domain'), '/') . '/index/version/getVersion';
-
+        $url = trim('https://www.xyyseo.com/', '/') . '/index/version/getVersion';
 
         $data = CrawlService::get($url);
         $data = json_decode($data, true);
@@ -599,7 +639,7 @@ function get_remote_all_version_info()
 {
     $info = Cache::get('system_history_version_info');
     if (!$info) {
-        $url = trim(config('seo.official_domain'), '/') . '/index/version/getHistoryVersion';
+        $url = trim('https://www.xyyseo.com/', '/') . '/index/version/getHistoryVersion';
 
 
         $data = CrawlService::get($url);
@@ -611,4 +651,65 @@ function get_remote_all_version_info()
     }
 
     return $info;
+}
+
+
+/**
+ * author: mtg
+ * time: 2021/7/22   14:55
+ * function description: 伪原创
+ * @param $text
+ * @return string
+ */
+function fake_origin($text)
+{
+    $english = translate($text, 'en');
+    return translate($english, 'zh-CN');
+}
+
+/**
+ * author: mtg
+ * time: 2021/7/22   14:50
+ * function description:谷歌翻译接口
+ * @param $text
+ * @param string $to 'zh-CN'或'en'
+ * @return string
+ */
+function translate($text, $to = 'zh-CN')
+{
+    $waitTranslateText = $text;
+    $translateRs       = '';
+
+    while (mb_strlen($waitTranslateText) > 0) {
+
+        $thisTimeText = mb_substr($waitTranslateText, 0, 1500);
+
+        $waitTranslateText = mb_substr($waitTranslateText, 1500);
+
+        $thisTimeText = urlencode($thisTimeText);
+        $url          = 'https://translate.google.cn/translate_a/single?client=gtx&dt=t&ie=UTF-8&oe=UTF-8&sl=auto&tl=' . $to . '&q=' . $thisTimeText;
+
+        $res = CrawlService::get($url);
+
+        $thisTimeRs = json_decode($res);
+        if ($rs = data_get($thisTimeRs, 0)) {
+            if (is_array($rs)) {
+                foreach ($rs as $item) {
+                    $translateRs .= data_get($item, '0');
+                }
+            }
+        }
+
+    }
+
+    return $translateRs;
+
+}
+
+//返回当前的毫秒时间戳
+function ms_time()
+{
+    list($ms, $sec) = explode(' ', microtime());
+    $mstime = (float)sprintf('%.0f', (floatval($ms) + floatval($sec)) * 1000);
+    return $mstime;
 }

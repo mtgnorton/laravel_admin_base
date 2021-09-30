@@ -30,8 +30,6 @@ class PositionController extends AdminController
 
         $grid->tools(function (Grid\Tools $tools) {
             $tools->append(new SendSms());
-
-            $tools->disableBatchActions();
         });
         $grid->column('id', __('Id'));
         $grid->column('t1', __('经纬度'));

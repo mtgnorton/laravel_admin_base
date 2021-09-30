@@ -7,6 +7,8 @@ use App\Admin\Components\Settings\Other;
 use App\Admin\Components\Settings\Sms;
 use App\Admin\Components\Settings\SmsTemplate;
 use App\Admin\Components\Settings\Storage;
+use App\Admin\Components\Settings\SystemMigration;
+use App\Admin\Components\Settings\SystemUpdate;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Widgets\Tab;
@@ -23,7 +25,8 @@ class SettingController extends Controller
             'sms'         => Sms::class,
             'smsTemplate' => SmsTemplate::class,
             'storage'     => Storage::class,
-
+            'update'        => SystemUpdate::class,
+            'import_export' => SystemMigration::class,
         ];
 
 

@@ -17,6 +17,7 @@ class JudgeUserDisabled
     public function handle($request, Closure $next)
     {
 
+
         if (!Auth::user()){
             return $next($request);
         }

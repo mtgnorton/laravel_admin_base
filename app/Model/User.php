@@ -96,6 +96,7 @@ class User extends Authenticatable implements JWTSubject
     {
         if ($parent->id == 0) {
             return;
+
         }
         $parents = $parent->parents->prepend($parent);
 
@@ -107,8 +108,12 @@ class User extends Authenticatable implements JWTSubject
                 ]
             ];
         });
+
         $this->parents()->attach($userLayers);
+
     }
+
+
 
 
     /**

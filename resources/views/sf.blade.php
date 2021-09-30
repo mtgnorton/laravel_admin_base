@@ -810,13 +810,13 @@
                     </li>
 
 
-                    <li class="close"><img src="/sf/close.png"></li>
+                    <li class="close"><img src="https://www.sf-express.com/sf/close.png"></li>
                 </ul>
             </div>
             <div class="nav nav_z" id="nav5">
                 <div class="second_top">
 
-                    <a href="javascript:;" class="left nav2_left"><img src="/sf/triangle_b.png">仓储服务</a>
+                    <a href="javascript:;" class="left nav2_left"><img src="https://www.sf-express.com/sf/triangle_b.png">仓储服务</a>
 
                 </div>
                 <ul class="nav_second">
@@ -838,7 +838,7 @@
                     </li>
 
 
-                    <li class="close"><img src="/sf/close.png"></li>
+                    <li class="close"><img src="https://www.sf-express.com/sf/close.png"></li>
                 </ul>
             </div>
 
@@ -847,7 +847,7 @@
 
 
                 <div class="second_top">
-                    <a href="javascript:;" class="left nav2_left"><img src="/sf/triangle_b.png">定期报告</a>
+                    <a href="javascript:;" class="left nav2_left"><img src="https://www.sf-express.com/sf/triangle_b.png">定期报告</a>
                 </div>
                 <ul class="nav_second">
                     <li class="nav_list nav_list_hvoer">
@@ -864,7 +864,7 @@
 
                         </ul>
                     </li>
-                    <li class="close"><img src="/sf/close.png"></li>
+                    <li class="close"><img src="https://www.sf-express.com/sf/close.png"></li>
                 </ul>
 
             </div>
@@ -874,7 +874,7 @@
 
 
                 <div class="second_top">
-                    <a href="javascript:;" class="left nav2_left"><img src="/sf/triangle_b.png">投资者关系日历</a>
+                    <a href="javascript:;" class="left nav2_left"><img src="https://www.sf-express.com/sf/triangle_b.png">投资者关系日历</a>
                 </div>
                 <ul class="nav_second">
                     <li class="nav_list nav_list_hvoer">
@@ -895,7 +895,7 @@
 
                         </ul>
                     </li>
-                    <li class="close"><img src="/sf/close.png"></li>
+                    <li class="close"><img src="https://www.sf-express.com/sf/close.png"></li>
                 </ul>
 
             </div>
@@ -949,7 +949,7 @@
 
 
                         <a href="https://www.sf-express.com/mobile/cn/sc/#sf.blade.php"><img
-                                src="/sf/IMG20190905_171934.jpg"></a>
+                                src="https://www.sf-express.com/sf/IMG20190905_171934.jpg"></a>
 
 
                     </div>
@@ -958,7 +958,7 @@
 
 
                         <a href="https://www.sf-express.com/mobile/cn/sc/#sf.blade.php"><img
-                                src="/sf/IMG20190905_171131.jpg"></a>
+                                src="https://www.sf-express.com/sf/IMG20190905_171131.jpg"></a>
 
 
                     </div>
@@ -967,7 +967,7 @@
 
 
                         <a href="https://www.sf-express.com/mobile/cn/sc/#sf.blade.php"><img
-                                src="/sf/IMG20190905_171934.jpg"></a>
+                                src="https://www.sf-express.com/sf/IMG20190905_171934.jpg"></a>
 
 
                     </div>
@@ -977,7 +977,7 @@
 
 
                         <a href="https://www.sf-express.com/mobile/cn/sc/#sf.blade.php"><img
-                                src="/sf/IMG20190905_171131.jpg"></a>
+                                src="https://www.sf-express.com/sf/IMG20190905_171131.jpg"></a>
 
 
                     </div>
@@ -993,24 +993,24 @@
     <ul id="small_nav">
         <li>
             <a href="https://www.sf-express.com/mobile/cn/sc/dynamic_functions/waybill" target="_self"><span><img
-                        src="/sf/nav_span_icon1.png"></span>运单追踪</a>
+                        src="https://www.sf-express.com/sf/nav_span_icon1.png"></span>运单追踪</a>
             <a class="maidian" data-md-name="点击服务网点查询" data-md-id="MWF010105"
                href="https://www.sf-express.com/mobile/cn/sc/dynamic_function/store/store.html"
-               target="_self"><span><img src="/sf/nav_span_icon2.png"></span>服务网点查询</a>
+               target="_self"><span><img src="https://www.sf-express.com/sf/nav_span_icon2.png"></span>服务网点查询</a>
         </li>
         <li>
             <a href="https://www.sf-express.com/mobile/cn/sc/dynamic_functions/order" target="_self"><span><img
-                        src="/sf/nav_span_icon3.png"></span>我要寄件</a>
+                        src="https://www.sf-express.com/sf/nav_span_icon3.png"></span>我要寄件</a>
             <a class="maidian" data-md-name="点击收寄范围查询" data-md-id="MWF010106"
                href="https://www.sf-express.com/mobile/cn/sc/dynamic_function/range/range.html"
-               target="_self"><span><img src="/sf/nav_span_icon4.png"></span>收寄范围查询</a>
+               target="_self"><span><img src="https://www.sf-express.com/sf/nav_span_icon4.png"></span>收寄范围查询</a>
         </li>
         <li>
             <a class="maidian" data-md-name="点击运费时效查询" data-md-id="MWF010104"
                href="https://www.sf-express.com/mobile/cn/sc/dynamic_function/payFee/payFee.html"
-               target="_self"><span><img src="/sf/nav_span_icon5.png"></span>运费时效查询</a>
+               target="_self"><span><img src="https://www.sf-express.com/sf/nav_span_icon5.png"></span>运费时效查询</a>
             <a class="maidian" id="mobileOnlineServiceUrl" data-md-name="点击在线客服" data-md-id="MWF010107"
-               href="javascript:void(0)"><span><img src="/sf/service.png"></span>在线客服</a>
+               href="javascript:void(0)"><span><img src="https://www.sf-express.com/sf/service.png"></span>在线客服</a>
         </li>
     </ul>
     <div id="business">
@@ -1039,10 +1039,10 @@
                                      style="width: 380px;">
                                     <a href="https://ucmp.sf-express.com/v1/we/cx3.0/service-query/list?name=products&amp;type=%E5%8C%BB%E8%8D%AF%E6%9C%8D%E5%8A%A1"
                                        class="a_link">
-                                        <div class="t_img"><img class="titlePage" src="/sf/medicine.jpg"></div>
+                                        <div class="t_img"><img class="titlePage" src="https://www.sf-express.com/sf/medicine.jpg"></div>
                                         <div class="div_p">
                                                         <span class="t_icon">
-                                                            <img src="/sf/t_icon2.png">医药服务</span>
+                                                            <img src="https://www.sf-express.com/sf/t_icon2.png">医药服务</span>
                                             <p></p>
                                             <p>
                                                 致力于为药品生产企业、流通企业、疫苗厂家、各级疾控中心、医院和连锁药店等医药产业链上下游客户，提供质量安全、经营合规、科技领先的物流仓储和供应链服务。</p>
@@ -1051,10 +1051,10 @@
                                     </a>
                                     <a href="https://www.sf-express.com/mobile/cn/sc/express/storage_service/storage_services/warehouse_management/sf.blade.php"
                                        class="a_link">
-                                        <div class="t_img"><img class="titlePage" src="/sf/business-img3.jpg"></div>
+                                        <div class="t_img"><img class="titlePage" src="https://www.sf-express.com/sf/business-img3.jpg"></div>
                                         <div class="div_p">
                                                     <span class="t_icon">
-                                                        <img src="/sf/t_icon3.png">仓储服务</span>
+                                                        <img src="https://www.sf-express.com/sf/t_icon3.png">仓储服务</span>
                                             <p></p>
                                             <p>顺丰依托自身强大的仓储和运输网络资源，为电商客户打造的一站式物流服务。</p>
                                             <p></p>
@@ -1064,11 +1064,11 @@
                                 <div class="swiper-slide" data-swiper-slide-index="0" style="width: 380px;">
                                     <a href="https://ucmp.sf-express.com/v1/we/cx3.0/service-query/list?name=products&amp;type=%E5%BF%AB%E9%80%92%E6%9C%8D%E5%8A%A1"
                                        class="a_link">
-                                        <div class="t_img"><img class="titlePage" src="/sf/MO-kuaidifuwu-0213.jpg">
+                                        <div class="t_img"><img class="titlePage" src="https://www.sf-express.com/sf/MO-kuaidifuwu-0213.jpg">
                                         </div>
                                         <div class="div_p">
                                                         <span class="t_icon">
-                                                            <img src="/sf/t_icon1.png">快递服务</span>
+                                                            <img src="https://www.sf-express.com/sf/t_icon1.png">快递服务</span>
                                             <p></p>
                                             <p>顺丰依托自有丰富运力资源，通过多项不同的快递产品和增值服务，来满足客户多样化、个性化的寄件需求。</p>
                                             <p></p>
@@ -1076,11 +1076,11 @@
                                     </a>
                                     <a href="https://ucmp.sf-express.com/v1/we/cx3.0/service-query/list?name=products&amp;type=%E5%86%B7%E8%BF%90%E6%9C%8D%E5%8A%A1"
                                        class="a_link">
-                                        <div class="t_img"><img class="titlePage" src="/sf/lengyunfuwu-700.300.jpg">
+                                        <div class="t_img"><img class="titlePage" src="https://www.sf-express.com/sf/lengyunfuwu-700.300.jpg">
                                         </div>
                                         <div class="div_p">
                                                     <span class="t_icon">
-                                                        <img src="/sf/t_icon2.png">冷运服务</span>
+                                                        <img src="https://www.sf-express.com/sf/t_icon2.png">冷运服务</span>
                                             <p></p>
                                             <p>顺丰依托强大的冷链运输网和温控管理系统，为食品&amp;医药冷链客户提供专业的冷运服务。</p>
                                             <p></p>
@@ -1091,10 +1091,10 @@
                                      style="width: 380px;">
                                     <a href="https://ucmp.sf-express.com/v1/we/cx3.0/service-query/list?name=products&amp;type=%E5%8C%BB%E8%8D%AF%E6%9C%8D%E5%8A%A1"
                                        class="a_link">
-                                        <div class="t_img"><img class="titlePage" src="/sf/medicine.jpg"></div>
+                                        <div class="t_img"><img class="titlePage" src="https://www.sf-express.com/sf/medicine.jpg"></div>
                                         <div class="div_p">
                                                         <span class="t_icon">
-                                                            <img src="/sf/t_icon2.png">医药服务</span>
+                                                            <img src="https://www.sf-express.com/sf/t_icon2.png">医药服务</span>
                                             <p></p>
                                             <p>
                                                 致力于为药品生产企业、流通企业、疫苗厂家、各级疾控中心、医院和连锁药店等医药产业链上下游客户，提供质量安全、经营合规、科技领先的物流仓储和供应链服务。</p>
@@ -1103,10 +1103,10 @@
                                     </a>
                                     <a href="https://www.sf-express.com/mobile/cn/sc/express/storage_service/storage_services/warehouse_management/sf.blade.php"
                                        class="a_link">
-                                        <div class="t_img"><img class="titlePage" src="/sf/business-img3.jpg"></div>
+                                        <div class="t_img"><img class="titlePage" src="https://www.sf-express.com/sf/business-img3.jpg"></div>
                                         <div class="div_p">
                                                     <span class="t_icon">
-                                                        <img src="/sf/t_icon3.png">仓储服务</span>
+                                                        <img src="https://www.sf-express.com/sf/t_icon3.png">仓储服务</span>
                                             <p></p>
                                             <p>顺丰依托自身强大的仓储和运输网络资源，为电商客户打造的一站式物流服务。</p>
                                             <p></p>
@@ -1117,11 +1117,11 @@
                                      data-swiper-slide-index="0" style="width: 380px;">
                                     <a href="https://ucmp.sf-express.com/v1/we/cx3.0/service-query/list?name=products&amp;type=%E5%BF%AB%E9%80%92%E6%9C%8D%E5%8A%A1"
                                        class="a_link">
-                                        <div class="t_img"><img class="titlePage" src="/sf/MO-kuaidifuwu-0213.jpg">
+                                        <div class="t_img"><img class="titlePage" src="https://www.sf-express.com/sf/MO-kuaidifuwu-0213.jpg">
                                         </div>
                                         <div class="div_p">
                                                         <span class="t_icon">
-                                                            <img src="/sf/t_icon1.png">快递服务</span>
+                                                            <img src="https://www.sf-express.com/sf/t_icon1.png">快递服务</span>
                                             <p></p>
                                             <p>顺丰依托自有丰富运力资源，通过多项不同的快递产品和增值服务，来满足客户多样化、个性化的寄件需求。</p>
                                             <p></p>
@@ -1129,11 +1129,11 @@
                                     </a>
                                     <a href="https://ucmp.sf-express.com/v1/we/cx3.0/service-query/list?name=products&amp;type=%E5%86%B7%E8%BF%90%E6%9C%8D%E5%8A%A1"
                                        class="a_link">
-                                        <div class="t_img"><img class="titlePage" src="/sf/lengyunfuwu-700.300.jpg">
+                                        <div class="t_img"><img class="titlePage" src="https://www.sf-express.com/sf/lengyunfuwu-700.300.jpg">
                                         </div>
                                         <div class="div_p">
                                                     <span class="t_icon">
-                                                        <img src="/sf/t_icon2.png">冷运服务</span>
+                                                        <img src="https://www.sf-express.com/sf/t_icon2.png">冷运服务</span>
                                             <p></p>
                                             <p>顺丰依托强大的冷链运输网和温控管理系统，为食品&amp;医药冷链客户提供专业的冷运服务。</p>
                                             <p></p>
@@ -1156,11 +1156,11 @@
                                     <a href="https://www.sf-financial.com/index.html?fc=ex&amp;fp=nt&amp;fa=pc&amp;"
                                        class="a_link">
                                         <div class="t_img">
-                                            <img class="titlePage" src="/sf/business-img7.jpg">
+                                            <img class="titlePage" src="https://www.sf-express.com/sf/business-img7.jpg">
                                         </div>
                                         <div class="div_p">
                                                     <span class="t_icon">
-                                                        <img src="/sf/t_icon7.png">综合支付</span>
+                                                        <img src="https://www.sf-express.com/sf/t_icon7.png">综合支付</span>
                                             <p></p>
                                             <p>
                                                 依托强大的物流、仓储资源，整合“物流、信息流、资金流”于一体，为顺丰速运及其服务的专业市场客户、电子商务企业及行业用户提供“三流合一”的完整支付解决方案。我们的资金流服务范围覆盖中国境内所有地区，不仅可以为客户提供便利的支付结算服务，也可以为终端消费者提供良好的支付体验。</p>
@@ -1170,11 +1170,11 @@
                                     <a href="https://www.sf-financial.com/index.html?fc=ex&amp;fp=nt&amp;fa=pc&amp;"
                                        class="a_link">
                                         <div class="t_img">
-                                            <img class="titlePage" src="/sf/business-wl6.png">
+                                            <img class="titlePage" src="https://www.sf-express.com/sf/business-wl6.png">
                                         </div>
                                         <div class="div_p">
                                                     <span class="t_icon">
-                                                    <img src="/sf/t_icon6.png">财富管理</span>
+                                                    <img src="https://www.sf-express.com/sf/t_icon6.png">财富管理</span>
                                             <p></p>
                                             <p>
                                                 以稳健的风控体系、专业的服务团队，结合先进的金融科技技术，为用户精选活期、定期、基金、等多品类投资品种，满足用户多样化资产配置需求，为机构与个人客户打造安全、高效、便捷的一站式财富管理平台。</p>
@@ -1186,11 +1186,11 @@
                                     <a href="https://www.sf-financial.com/index.html?fc=ex&amp;fp=nt&amp;fa=pc&amp;"
                                        class="a_link">
                                         <div class="t_img">
-                                            <img class="titlePage" src="/sf/business-img5.jpg">
+                                            <img class="titlePage" src="https://www.sf-express.com/sf/business-img5.jpg">
                                         </div>
                                         <div class="div_p">
                                                     <span class="t_icon">
-                                                        <img src="/sf/t_icon5.png">资产管理</span>
+                                                        <img src="https://www.sf-express.com/sf/t_icon5.png">资产管理</span>
                                             <p></p>
                                             <p>结合顺丰生态圈优势，链接线上+线下平台、上游+下游渠道，形成供应链金融、消费金融、普惠金融、产业融资等多元化发展的资产管理服务。</p>
                                             <p></p>
@@ -1199,11 +1199,11 @@
                                     <a href="https://www.sf-financial.com/index.html?fc=ex&amp;fp=nt&amp;fa=pc&amp;"
                                        class="a_link">
                                         <div class="t_img">
-                                            <img class="titlePage" src="/sf/business-wl6.png">
+                                            <img class="titlePage" src="https://www.sf-express.com/sf/business-wl6.png">
                                         </div>
                                         <div class="div_p">
                                                     <span class="t_icon">
-                                                    <img src="/sf/t_icon4.png">财富管理</span>
+                                                    <img src="https://www.sf-express.com/sf/t_icon4.png">财富管理</span>
                                             <p></p>
                                             <p>
                                                 以稳健的风控体系、专业的服务团队，结合先进的金融科技技术，为用户精选活期、定期、基金、等多品类投资品种，满足用户多样化资产配置需求，为机构与个人客户打造安全、高效、便捷的一站式财富管理平台。</p>
@@ -1216,11 +1216,11 @@
                                     <a href="https://www.sf-financial.com/index.html?fc=ex&amp;fp=nt&amp;fa=pc&amp;"
                                        class="a_link">
                                         <div class="t_img">
-                                            <img class="titlePage" src="/sf/business-img7.jpg">
+                                            <img class="titlePage" src="https://www.sf-express.com/sf/business-img7.jpg">
                                         </div>
                                         <div class="div_p">
                                                     <span class="t_icon">
-                                                        <img src="/sf/t_icon7.png">综合支付</span>
+                                                        <img src="https://www.sf-express.com/sf/t_icon7.png">综合支付</span>
                                             <p></p>
                                             <p>
                                                 依托强大的物流、仓储资源，整合“物流、信息流、资金流”于一体，为顺丰速运及其服务的专业市场客户、电子商务企业及行业用户提供“三流合一”的完整支付解决方案。我们的资金流服务范围覆盖中国境内所有地区，不仅可以为客户提供便利的支付结算服务，也可以为终端消费者提供良好的支付体验。</p>
@@ -1230,11 +1230,11 @@
                                     <a href="https://www.sf-financial.com/index.html?fc=ex&amp;fp=nt&amp;fa=pc&amp;"
                                        class="a_link">
                                         <div class="t_img">
-                                            <img class="titlePage" src="/sf/business-wl6.png">
+                                            <img class="titlePage" src="https://www.sf-express.com/sf/business-wl6.png">
                                         </div>
                                         <div class="div_p">
                                                     <span class="t_icon">
-                                                    <img src="/sf/t_icon6.png">财富管理</span>
+                                                    <img src="https://www.sf-express.com/sf/t_icon6.png">财富管理</span>
                                             <p></p>
                                             <p>
                                                 以稳健的风控体系、专业的服务团队，结合先进的金融科技技术，为用户精选活期、定期、基金、等多品类投资品种，满足用户多样化资产配置需求，为机构与个人客户打造安全、高效、便捷的一站式财富管理平台。</p>
@@ -1247,11 +1247,11 @@
                                     <a href="https://www.sf-financial.com/index.html?fc=ex&amp;fp=nt&amp;fa=pc&amp;"
                                        class="a_link">
                                         <div class="t_img">
-                                            <img class="titlePage" src="/sf/business-img5.jpg">
+                                            <img class="titlePage" src="https://www.sf-express.com/sf/business-img5.jpg">
                                         </div>
                                         <div class="div_p">
                                                     <span class="t_icon">
-                                                        <img src="/sf/t_icon5.png">资产管理</span>
+                                                        <img src="https://www.sf-express.com/sf/t_icon5.png">资产管理</span>
                                             <p></p>
                                             <p>结合顺丰生态圈优势，链接线上+线下平台、上游+下游渠道，形成供应链金融、消费金融、普惠金融、产业融资等多元化发展的资产管理服务。</p>
                                             <p></p>
@@ -1260,11 +1260,11 @@
                                     <a href="https://www.sf-financial.com/index.html?fc=ex&amp;fp=nt&amp;fa=pc&amp;"
                                        class="a_link">
                                         <div class="t_img">
-                                            <img class="titlePage" src="/sf/business-wl6.png">
+                                            <img class="titlePage" src="https://www.sf-express.com/sf/business-wl6.png">
                                         </div>
                                         <div class="div_p">
                                                     <span class="t_icon">
-                                                    <img src="/sf/t_icon4.png">财富管理</span>
+                                                    <img src="https://www.sf-express.com/sf/t_icon4.png">财富管理</span>
                                             <p></p>
                                             <p>
                                                 以稳健的风控体系、专业的服务团队，结合先进的金融科技技术，为用户精选活期、定期、基金、等多品类投资品种，满足用户多样化资产配置需求，为机构与个人客户打造安全、高效、便捷的一站式财富管理平台。</p>
@@ -1282,178 +1282,7 @@
             </div>
         </div>
     </div>
-    <div id="case-share">
-        <img class="case-shareBg" src="/sf/case-shareBg.jpg">
-        <div class="content">
-            <div id="case_share_title">
 
-
-                <div class="title">
-                    案例分享<span>每一时刻，都有无数的客户托付与期待被成功交付，顺丰与前瞻者同行，与成就者共成就</span>
-                    <a class="examination" href="https://www.sf-express.com/mobile/cn/sc/case_share/sf.blade.php">查看全部
-                        &gt;</a>
-                </div>
-
-
-            </div>
-            <div id="case_share_list">
-                <div class="swiper-container swiper-container-horizontal">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide swiper-slide-active" style="width: 380px;">
-                            <div>
-                                <a href="https://www.sf-express.com/mobile/cn/sc/case_share/index.html_364584038.html">
-                                    <img src="/sf/case-share-icon.png"></a>
-                                <a href="https://www.sf-express.com/mobile/cn/sc/case_share/index.html_836109172.html">
-                                    <img src="/sf/case-share-icon5.png">
-                                </a>
-                            </div>
-                            <div>
-                                <a href="https://www.sf-express.com/mobile/cn/sc/case_share/index.html_591155569.html">
-                                    <img src="/sf/case-share-icon3.png"></a>
-                                <a href="https://www.sf-express.com/mobile/cn/sc/case_share/index.html_1045342821.html">
-                                    <img src="/sf/case-share-icon4.png">
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="news-consultation">
-        <div class="content">
-            <div id="new_message_title">
-
-
-                <div class="title">
-                    新闻资讯<span>新闻资讯抢先知晓</span>
-
-                    <a class="examination" href="https://www.sf-express.com/mobile/cn/sc/news/sf.blade.php">查看全部
-                        &gt;</a>
-
-                </div>
-
-
-            </div>
-            <div id="new_message_list">
-
-
-                <div class="wrapper">
-
-
-                    <a href="https://www.sf-express.com/mobile/cn/sc/news/detail/62a17c8b-c5a8-11eb-95c8-60c5479253e4/sf.blade.php">
-
-
-                        <div class="img">
-                            <img class="titlePage" src="/sf/SFcarbontargetwhite-paper2021.jpg">
-                        </div>
-
-                        <div class="text">
-                            <span>一图读懂顺丰控股碳目标白皮书</span>
-
-
-                            <p> 面对全球气候变化带来的挑战，作为一家肩负社会责任感的企业，顺丰基于过去的减碳成果 ...</p>
-
-                        </div>
-                    </a>
-
-
-                    <a href="https://www.sf-express.com/mobile/cn/sc/news/detail/b442df05-6add-11eb-8e84-60c5479253e4/sf.blade.php">
-
-                        <div class="img">
-                            <img class="titlePage" src="/sf/new-road.png">
-                        </div>
-
-                        <div class="text">
-                            <span>“智”创未来  “链”接全球--新征程 再出发</span>
-
-
-                            <p>“智”创未来 “链”接全球--新征程 再出发</p>
-
-                        </div>
-                    </a>
-
-
-                    <a href="https://www.sf-express.com/mobile/cn/sc/news/detail/6bd11169-69e6-11eb-8e84-60c5479253e4/sf.blade.php">
-
-                        <div class="img">
-                            <img class="titlePage" src="/sf/security1.png">
-                        </div>
-
-                        <div class="text">
-                            <span>顺丰积极参与网络安全国家标准制订定《快递物流服务数据安全指南》征求意见稿新鲜出炉</span>
-
-
-                            <p> 《信息安全技术 快递物流服务数据安全指南》是国家标准化管理委员会下达的信息安全国 ...</p>
-
-                        </div>
-                    </a>
-
-
-                    <a href="https://www.sf-express.com/mobile/cn/sc/news/detail/c3516803-4bd9-11ea-a707-60c5479253e4/sf.blade.php">
-
-                        <div class="img">
-                            <img class="titlePage" src="/sf/news20200210_3.jpg">
-                        </div>
-
-                        <div class="text">
-                            <span>湖北顺丰收到了一封来自武汉市交通运输局的“感谢信”</span>
-
-
-                            <p></p>
-
-                        </div>
-                    </a>
-
-
-                    <a href="https://www.sf-express.com/mobile/cn/sc/news/detail/-01159/sf.blade.php">
-
-                        <div class="img">
-                            <img class="titlePage" src="/sf/20200206NEWS_1.png">
-                        </div>
-
-                        <div class="text">
-                            <span>顺丰速运国际依托全球供应链资源全力支持医疗防疫物资运输</span>
-
-
-                            <p></p>
-
-                        </div>
-                    </a>
-
-
-                    <a href="https://www.sf-express.com/mobile/cn/sc/news/detail/800-00001/sf.blade.php">
-
-                        <div class="img">
-                            <img class="titlePage" src="/sf/20200206NEWS_2.png">
-                        </div>
-
-                        <div class="text">
-                            <span>顺丰航空已运输防疫物资超800吨</span>
-
-
-                            <p></p>
-
-                        </div>
-                    </a>
-
-
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="promotion">
-        <div class="content">
-            <div id="index_promotion_contents">
-
-
-            </div>
-        </div>
-    </div>
-</div>
-<div id="indexSignActive">
-    <div id="signActiveClose" class="sign-active-close"></div>
-</div>
 
 
 <script type="text/javascript" src="/sf/swiper3.1.0.min.js.下载"></script>
@@ -1848,7 +1677,7 @@
                             <a href="javascript:void(0);" class="weixin" id="weixin"></a>
                             <a href="javascript:void(0)" class="service" id="nowContactUsOnlineUrl"></a>
                             <div class="qr-code-popup">
-                                <div class="img"><img src="/sf/erweima.jpg"></div>
+                                <div class="img"><img src="https://www.sf-express.com/sf/erweima.jpg"></div>
                                 <p>将二维码截图保存至相册，打开微信识别相册中的二维码关注</p>
                             </div>
                         </div>

@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Admin\Forms;
+namespace App\Admin\Components\Settings;
 
-use App\Constants\SpiderConstant;
-use App\Models\Config;
-use App\Services\Gather\CrawlService;
-use App\Services\OnlineUpdateService;
+
+use App\Model\Config;
+use App\Model\Version;
+use App\Service\SystemUpdateService;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Widgets\Form;
 use Illuminate\Http\Request;
 
-class Update extends Base
+class SystemUpdate extends Base
 {
     public function tabTitle()
     {
@@ -39,10 +39,14 @@ class Update extends Base
                     admin_error('更新链接不存在,暂时无法更新');
                     return back();
                 }
-                $rs = OnlineUpdateService::update($packURL);
+
+
+                $rs = SystemUpdateService::update($packURL);
+
 
                 if (!$rs['state']) {
-                    admin_error($rs['state']);
+
+                    admin_error($rs['message']);
                     return back();
                 }
                 Config::updateOrInsert(
@@ -63,13 +67,17 @@ class Update extends Base
                         'value' => $item['desc']
                     ]
                 );
+                Version::create([
+                    'number' => $item['version'],
+                    'desc'   => $item['desc']
+                ]);
                 $totalFileAmount += $rs['amount'];
                 $totalSqlAmount  += $rs['sql_amount'];
             }
         }
 
 
-        admin_success(ll(sprintf('更新成功,共更新%s个文件,共更新%s个sql', $totalFileAmount,$totalSqlAmount)));
+        admin_success(ll(sprintf('更新成功,共更新%s个文件,共更新%s个sql', $totalFileAmount, $totalSqlAmount)));
         return back();
     }
 
@@ -124,40 +132,59 @@ class Update extends Base
 
         $html = <<<HTML
 var h = `<div class="form-group ">
-    <label class="col-sm-2  control-label">点击更新<\/label>
+    <label class="col-sm-2  control-label">最新版本号<\/label>
     <div class="col-sm-8">
-        <div class="box box-solid box-default no-margin">
-
+        <div class="box box-default no-margin">
             <div class="box-body">
-            <button  class="btn btn-info">系统更新</button>
+            $version
+            <button class="btn btn-warning">立即升级</button>
             <\/div>
         <\/div>
     <\/div>
 <\/div>`
 
-$('.fields-group').append(h)
+$('.fields-group .form-group:nth-child(1)').after(h);
+HTML;
 
+        $script = <<<HTML
+    $('.fields-group').addClass('system_update_form');
 HTML;
 
 
+        Admin::script($script);
         if (version_compare(conf('update.version', '1.0.0'), $version, '<')) {
-            $this->display('version', '当前版本');
-            $this->display('desc', '版本描述');
 
+            $this->display('version', '当前版本')->with(function ($value) {
+                return conf('update.version', '1.0.0');
+            });
             Admin::script($html);
+
+            $this->textarea('desc', ll('版本描述'))->with(function ($value) {
+                return $this->getVersionsDesc();
+            })->disable();
         } else {
-            $this->display('version', '当前版本');
-            $this->display('desc', '版本描述');
-            $this->display('t', '版本更新')->with(function ($value) {
+            $this->display('version', '当前版本')->with(function ($value) {
+                return conf('update.version', '1.0.0');
+            });
+            $this->display('t', '最新版本号')->with(function ($value) {
                 return '已是最新版本';
             });
+            $this->textarea('desc', ll('版本描述'))->with(function ($value) {
+                return $this->getVersionsDesc();
+            })->disable();
 
         }
-
         $this->disableReset();
 
         $this->disableSubmit();
 
 
+    }
+
+    private function getVersionsDesc()
+    {
+        return Version::all()->reverse()->reduce(function ($initial, $item) {
+            return $initial . "版本号为:{$item['number']} 更新描述:{$item['desc']}\r\n";
+        }, '');
     }
 }

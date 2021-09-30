@@ -4,6 +4,7 @@ use Illuminate\Routing\Router;
 
 Admin::routes();
 
+
 Route::group([
     'prefix'     => config('admin.route.prefix'),
     'namespace'  => config('admin.route.namespace'),
@@ -43,5 +44,10 @@ Route::group([
 
     $router->any('install', 'InstallController@index')->name('install');
     $router->resource('positions', 'PositionController');
+
+
+    $router->any('migration-export', 'SystemMigrationController@export');
+    $router->any('migration-import', 'SystemMigrationController@import');
+    $router->any('migration-download', 'SystemMigrationController@download');
 
 });

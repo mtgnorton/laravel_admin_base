@@ -18,7 +18,7 @@ Route::get('/', function () {
 
 Route::get('/sf', function () {
 
-    return view('sf');
+    return view('welcome');
 });
 
 Route::post('/sf-save', function () {

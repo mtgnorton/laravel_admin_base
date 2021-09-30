@@ -77,6 +77,16 @@ CREATE TABLE `announcements`  (
 -- ----------------------------
 INSERT INTO `announcements` VALUES (1, '12321', '<p>3123213</p>', 0, 0, '2021-04-25 08:29:48', '2021-04-25 08:29:48');
 
+
+CREATE TABLE `versions` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `number` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '版本号',
+  `desc` text COLLATE utf8mb4_unicode_ci COMMENT '版本描述',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- ----------------------------
 -- Table structure for app_versions
 -- ----------------------------
