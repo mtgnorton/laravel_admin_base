@@ -108,7 +108,10 @@ function new_api_exception($error, $code = 400)
 {
 
     db_rollBack(0);
-    common_log($error);
+
+    if (!is_string($error)) {
+        $error = json_encode($error);
+    }
     throw new \App\ApiException($error, $code);
 }
 
@@ -127,6 +130,7 @@ function form_validate(array $data, array $rules)
     $errors = $validator->errors();
 
     if ($errors->isNotEmpty()) {
+
         new_api_exception($errors->all());
     }
 }
@@ -352,11 +356,10 @@ function show_disabled_edit_and_delete(Encore\Admin\Show $show): \Encore\Admin\S
  */
 function form_error(string $message)
 {
-
-    if (is_admin_ajax()) {
+    $argsNumber = count(request()->all());
+    if ($argsNumber == 3) {
         new_api_exception($message);
     }
-
     $error = new MessageBag([
         'title'   => 'error',
         'message' => $message,
@@ -364,13 +367,6 @@ function form_error(string $message)
     return back()->with(compact('error'))->withInput();
 }
 
-
-function is_admin_ajax()
-{
-
-    return request()->ajax() && request()->header('X-PJAX') != 'true';
-
-}
 
 function human_file_size($size, $unit = ""): string
 {
@@ -449,7 +445,6 @@ function radio_transform(string $radio)
 }
 
 
-
 /**
  * author: mtg
  * time: 2021/7/29   14:54
@@ -474,6 +469,7 @@ function conf_insert_or_update($key, $value, $module, $isClearCache = false)
 
     }
 }
+
 /**
  * author: mtg
  * time: 2021/6/25   11:34

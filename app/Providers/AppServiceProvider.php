@@ -49,7 +49,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        bcscale(8);
+        \bcscale(8);
 
         $this->recordSqlLog();
 

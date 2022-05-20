@@ -66,7 +66,7 @@
 `
 5. 生成软连接 `php artisan storage:link`
 
-
+6. 生产app key `php artisan key:generate`
 ## 使用的第三方库
 1. barryvdh/laravel-ide-helper 
 ```

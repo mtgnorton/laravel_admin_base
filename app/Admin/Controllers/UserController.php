@@ -13,7 +13,6 @@ use Encore\Admin\Show;
 use Encore\Admin\Widgets\Callout;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\MessageBag;
-use mysql_xdevapi\Exception;
 
 class UserController extends AdminController
 {
@@ -116,8 +115,6 @@ class UserController extends AdminController
 
         $form->saving(function (Form $form) {
 
-
-            new_api_exception(11);
             if ($form->password && $form->model()->password != $form->password) {
                 $form->password = Hash::make($form->password);
             }
