@@ -417,6 +417,7 @@ function collect_sign(array $args, string $key, string $sign = null)
     common_log("通知加密,加密的参数为: $str");
     $newSign = hash("sha256", $str);
 
+
     if (is_null($sign)) {
         return $newSign;
     }
@@ -426,6 +427,30 @@ function collect_sign(array $args, string $key, string $sign = null)
     return true;
 }
 
+
+function api_sign(array $data, string $key, string $sign = null)
+{
+
+    $args = request()->all();
+    if ($args['timestamp'] < time() - 5 * 60) {
+        new_api_exception('请求已经过期');
+    }
+    $redis = app('redis');
+    $sign = $args['sign'];
+    if ($redis->get($sign)) {
+        new_api_exception('不要重复请求');
+    }
+    unset($args['sign']);
+    ksort($args);
+    $str = http_build_query($args, '', '&');
+    $newSign = hash("sha256", $str);
+
+    $oldSign = "ssss";
+    if ($newSign != $oldSign){
+        new_api_exception('请求错误');
+    }
+    return true;
+}
 
 /**
  * author: mtg
